@@ -8,6 +8,9 @@ namespace Auction.IoCConfig
         {
             Mapper.CreateMap<Auction.Models.DTO.Auction, Auction.Data.Auction>();
             Mapper.CreateMap<Auction.Models.DTO.User, Auction.Data.User>();
+
+            Mapper.CreateMap<Auction.Models.DTO.Item, Auction.Data.Item>();
+            Mapper.CreateMap<Auction.Data.Item, Auction.Models.DTO.Item>();
         }
     }
 }

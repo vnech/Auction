@@ -23,6 +23,5 @@
                 <Button x:Name="Confirm" Content="Confirm" Height="23" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" />
             </StackPanel>
         </StackPanel>
-
     </Grid>
 </UserControl>

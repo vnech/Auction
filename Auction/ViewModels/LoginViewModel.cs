@@ -35,6 +35,8 @@ namespace Auction.ViewModels
         public void Confirm()
         {
             _accountController.SignUp(User);
+
+            User = new User();
         }
 
         public bool CanConfirm()

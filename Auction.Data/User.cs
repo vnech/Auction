@@ -21,8 +21,9 @@ namespace Auction.Data
         }
     
         public int UserId { get; set; }
-        public string Login { get; set; }
         public string Password { get; set; }
+        public string UserName { get; set; }
+        public bool UserLevel { get; set; }
     
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<Role> Roles { get; set; }

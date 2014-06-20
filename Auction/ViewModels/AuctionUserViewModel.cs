@@ -12,19 +12,22 @@ namespace Auction.ViewModels
         private readonly IAuctionService _auctionService;
         private readonly IWindowManager _windowManager;
         private readonly INewAuctionDialogViewModel _newAuctionDialogViewModel;
+        private readonly INewItemDialogViewModel _newItemDialogViewModel;
         private readonly ILoginViewModel _loginViewModel;
 
         public AuctionUserViewModel(IAccountController accountController, 
                                     IAuctionService auctionService, 
                                     IWindowManager windowManager, 
                                     INewAuctionDialogViewModel newAuctionDialogViewModel, 
-                                    ILoginViewModel loginViewModel)
+                                    ILoginViewModel loginViewModel,
+                                    INewItemDialogViewModel newItemDialogViewModel)
         {
             _accountController = accountController;
             _auctionService = auctionService;
             _windowManager = windowManager;
             _newAuctionDialogViewModel = newAuctionDialogViewModel;
             _loginViewModel = loginViewModel;
+            _newItemDialogViewModel = newItemDialogViewModel;
         }
 
         #region IAuctionUserViewModelBase
@@ -77,6 +80,11 @@ namespace Auction.ViewModels
         public void NewAuction()
         {
             bool? showDialog = _windowManager.ShowDialog(_newAuctionDialogViewModel);
+        }
+
+        public void NewItem()
+        {
+            bool? showDialog = _windowManager.ShowDialog(_newItemDialogViewModel);
         }
 
         public bool CanNewAuction()

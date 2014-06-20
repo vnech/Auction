@@ -31,7 +31,7 @@ namespace Auction.ViewModels
         {
             _auctionService.NewAuction(Auction);
 
-            Auction = null;
+            Auction = new Auction.Models.DTO.Auction();
         }
 
         public bool CanCreate()

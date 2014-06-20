@@ -4,8 +4,10 @@
     {
         void StartAuction();
 
+        void EndAuction();
+
         void NewAuction();
 
-        void EndAuction();
+        void NewItem();
     }
 }

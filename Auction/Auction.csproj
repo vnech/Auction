@@ -117,6 +117,9 @@
     <Compile Include="ViewModels\AuctionUserViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAuctionDialogViewModel.cs" />
+    <Compile Include="Views\NewItemDialogView.xaml.cs">
+      <DependentUpon>NewItemDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\NewItemDialogViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\AuctionUserView.xaml.cs">
@@ -144,6 +147,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NewItemDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AuctionUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
