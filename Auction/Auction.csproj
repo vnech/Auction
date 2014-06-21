@@ -105,6 +105,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interfaces\IBidAuctionViewModel.cs" />
     <Compile Include="Interfaces\INewItemDialogViewModel.cs" />
     <Compile Include="Interfaces\IAuctionAdminViewModel.cs" />
     <Compile Include="Interfaces\IAuctionUserViewMode.cs" />
@@ -115,8 +116,12 @@
     <Compile Include="IoCConfig\AutoMapperConfiguration.cs" />
     <Compile Include="IoCConfig\ContainerBuilder.cs" />
     <Compile Include="ViewModels\AuctionUserViewModel.cs" />
+    <Compile Include="ViewModels\BidAuctionViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAuctionDialogViewModel.cs" />
+    <Compile Include="Views\BidAuctionView.xaml.cs">
+      <DependentUpon>BidAuctionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewItemDialogView.xaml.cs">
       <DependentUpon>NewItemDialogView.xaml</DependentUpon>
     </Compile>
@@ -147,6 +152,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\BidAuctionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NewItemDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

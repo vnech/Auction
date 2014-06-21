@@ -15,13 +15,16 @@ namespace Auction.ViewModels
         private readonly INewAuctionDialogViewModel _newAuctionDialogViewModel;
         private readonly INewItemDialogViewModel _newItemDialogViewModel;
         private readonly ILoginViewModel _loginViewModel;
+        private readonly IBidAuctionViewModel _bidAuctionViewModel;
+        private AuctionDTO _selectedAuction;
 
         public AuctionUserViewModel(IAccountController accountController, 
                                     IAuctionService auctionService, 
                                     IWindowManager windowManager, 
                                     INewAuctionDialogViewModel newAuctionDialogViewModel, 
                                     ILoginViewModel loginViewModel,
-                                    INewItemDialogViewModel newItemDialogViewModel)
+                                    INewItemDialogViewModel newItemDialogViewModel,
+                                    IBidAuctionViewModel bidAuctionViewModel)
         {
             _accountController = accountController;
             _auctionService = auctionService;
@@ -29,11 +32,23 @@ namespace Auction.ViewModels
             _newAuctionDialogViewModel = newAuctionDialogViewModel;
             _loginViewModel = loginViewModel;
             _newItemDialogViewModel = newItemDialogViewModel;
+            _bidAuctionViewModel = bidAuctionViewModel;
 
             Auctions = new BindableCollection<AuctionDTO>(_auctionService.AuctionsGet());
         }
 
         public BindableCollection<AuctionDTO> Auctions { get; set; }
+
+        public AuctionDTO SelectedAuction
+        {
+            get { return _selectedAuction; }
+            set
+            {
+                if (Equals(value, _selectedAuction)) return;
+                _selectedAuction = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         #region IAuctionUserViewModelBase
 
@@ -62,6 +77,7 @@ namespace Auction.ViewModels
 
         public void Bid()
         {
+            bool? showDialog = _windowManager.ShowDialog(_bidAuctionViewModel);
         }
 
         public bool CanBid()

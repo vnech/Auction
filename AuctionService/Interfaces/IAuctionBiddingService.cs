@@ -1,7 +1,9 @@
-﻿namespace AuctionService.Interfaces
+﻿using Auction.Models.DTO;
+
+namespace AuctionService.Interfaces
 {
     public interface IAuctionBiddingService
     {
-        void Bid();
+        void Bid(BidDTO bid);
     }
 }

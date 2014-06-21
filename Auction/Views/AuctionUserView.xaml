@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="Auctions" AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="0">
+                <DataGrid SelectedItem="SelectedAuction" x:Name="Auctions" AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Auction ID" Binding="{Binding AuctionId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Item Name" Binding="{Binding Item.ItemName}"></DataGridTextColumn>
@@ -36,7 +36,7 @@
                         <TextBlock>Login</TextBlock>
                     </Button>
                     <Button Margin="10" x:Name="Bid">
-                        <TextBlock>Bid Price</TextBlock>
+                        <TextBlock>BidItem Price</TextBlock>
                     </Button>
                 </StackPanel>
             </Grid>

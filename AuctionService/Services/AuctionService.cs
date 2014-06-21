@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Auction.Data;
 using Auction.Models.DTO;
@@ -22,9 +23,11 @@ namespace AuctionService.Services
             this.context = context;
         }
 
-        public int NewAuction(Auction.Models.DTO.AuctionDTO auctionDto)
+        #region IAuctionManageService
+
+        public int NewAuction(AuctionDTO auctionDto)
         {
-            var auctionEntity = AutoMapper.Mapper.Map<Auction.Data.Auction>(auctionDto);
+            var auctionEntity = Mapper.Map<Auction.Data.Auction>(auctionDto);
 
             auctionEntity = context.Auctions.Add(auctionEntity);
 
@@ -42,6 +45,10 @@ namespace AuctionService.Services
         {
         }
 
+        #endregion IAuctionManageService
+
+        #region IAuctionWatcherService
+
         public IEnumerable<AuctionDTO> AuctionsGet()
         {
             var auctions = context.Auctions.ToList();
@@ -51,8 +58,21 @@ namespace AuctionService.Services
             return Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
         }
 
-        public void Bid()
+        #endregion IAuctionWatcherService
+
+        #region IAuctionBiddingService
+
+        public void Bid(BidDTO bid)
         {
+            bid.CreatedAt = DateTime.Now;
+            
+            var bidEntity = Mapper.Map<Auction.Data.Bid>(bid);
+
+            bidEntity = context.Bids.Add(bidEntity);
+
+            context.SaveChanges();
         }
+
+        #endregion IAuctionBiddingService
     }
 }
