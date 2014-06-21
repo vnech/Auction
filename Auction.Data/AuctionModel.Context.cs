@@ -26,9 +26,9 @@ namespace Auction.Data
         }
     
         public virtual DbSet<Auction> Auctions { get; set; }
+        public virtual DbSet<Bid> Bids { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Bid> Bids { get; set; }
     }
 }

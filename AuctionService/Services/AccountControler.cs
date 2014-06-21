@@ -1,36 +1,75 @@
-﻿using Auction.Data;
-using Auction.Infrastructure.Interfaces;
+﻿using System.Linq;
+using Auction.Data;
 using Auction.Models.DTO;
+using AuctionService.Interfaces;
 using AutoMapper;
+using Caliburn.Micro;
 
-namespace Auction.Infrastructure.Controllers
+namespace AuctionService.Services
 {
-    public class AccountControler: IAccountController
+    public class AccountControler : PropertyChangedBase, IAccountController
     {
-        public void Login(UserDTO userDto)
+        private AuctionContext _context;
+        private UserDTO _currentUser;
+
+        public AccountControler()
+            : this(new AuctionContext())
         {
+
+        }
+
+        public AccountControler(AuctionContext context)
+        {
+            _context = context;
+        }
+
+        public bool Login(UserDTO user)
+        {
+            var entity = _context.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
+
+            if (entity != null)
+            {
+                CurrentUserInit(entity);
+                return true;
+            }
+
+            return false;
         }
 
         public void LogOut()
         {
         }
 
-        public int SignUp(UserDTO userDto)
+        public void SignUp(UserDTO userDto)
         {
-            using (var context = new AuctionContext())
+            var entity = Mapper.Map<Auction.Data.User>(userDto);
+
+            entity = _context.Users.Add(entity);
+
+            _context.SaveChanges();
+
+            CurrentUserInit(entity);
+        }
+
+        public bool IsAuthentificated
+        {
+            get { return CurrentUser != null; }
+        }
+
+        public UserDTO CurrentUser
+        {
+            get { return _currentUser; }
+            private set
             {
-                var userEntity = Mapper.Map<Data.User>(userDto);
-
-                userEntity = context.Users.Add(userEntity);
-
-                context.SaveChanges();
-
-                return userEntity.UserId;
+                if (Equals(value, _currentUser)) return;
+                _currentUser = value;
+                NotifyOfPropertyChange();
             }
         }
 
-        public bool IsAuthentificated { get; private set; }
-
-        public UserDTO CurrentUserDto { get; private set; }
+        private void CurrentUserInit(User user)
+        {
+            CurrentUser = Mapper.Map<UserDTO>(user);
+        }
     }
 }

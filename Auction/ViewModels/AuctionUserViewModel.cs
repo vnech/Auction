@@ -1,9 +1,7 @@
-﻿using Auction.Infrastructure.Interfaces;
-using Auction.Interfaces;
+﻿using Auction.Interfaces;
 using Auction.Models.DTO;
 using AuctionService.Interfaces;
 using Caliburn.Micro;
-
 
 namespace Auction.ViewModels
 {
@@ -95,7 +93,7 @@ namespace Auction.ViewModels
 
         public bool CanStartAuction()
         {
-            return false;
+            return _accountController.IsAuthentificated;
         }
 
         public void NewAuction()

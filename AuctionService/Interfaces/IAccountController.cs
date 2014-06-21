@@ -1,17 +1,17 @@
 ﻿using Auction.Models.DTO;
 
-namespace Auction.Infrastructure.Interfaces
+namespace AuctionService.Interfaces
 {
     public interface IAccountController
     {
-        void Login(UserDTO userDto);
+        bool Login(UserDTO userDto);
 
         void LogOut();
 
-        int SignUp(UserDTO userDto);
+        void SignUp(UserDTO userDto);
 
         bool IsAuthentificated { get; }
 
-        UserDTO CurrentUserDto { get; }
+        UserDTO CurrentUser { get; }
     }
 }

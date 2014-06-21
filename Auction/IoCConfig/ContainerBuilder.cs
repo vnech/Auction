@@ -1,7 +1,7 @@
-﻿using Auction.Infrastructure.Interfaces;
-using Auction.Interfaces;
+﻿using Auction.Interfaces;
 using Auction.ViewModels;
 using AuctionService.Interfaces;
+using AuctionService.Services;
 using Caliburn.Micro;
 using Microsoft.Practices.Unity;
 
@@ -23,7 +23,7 @@ namespace Auction.IoCConfig
             container.RegisterType<INewItemDialogViewModel, NewItemDialogViewModel>();
             container.RegisterType<IBidAuctionViewModel, BidAuctionViewModel>();
 
-            container.RegisterType<IAccountController, Infrastructure.Controllers.AccountControler>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IAccountController, AccountControler>(new ContainerControlledLifetimeManager());
             container.RegisterType<IAuctionService, AuctionService.Services.AuctionService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IAuctionBiddingService, AuctionService.Services.AuctionService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IItemService, AuctionService.Services.ItemService>(new ContainerControlledLifetimeManager());
