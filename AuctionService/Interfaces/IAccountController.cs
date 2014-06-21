@@ -4,14 +4,14 @@ namespace Auction.Infrastructure.Interfaces
 {
     public interface IAccountController
     {
-        void Login(User user);
+        void Login(UserDTO userDto);
 
         void LogOut();
 
-        int SignUp(User user);
+        int SignUp(UserDTO userDto);
 
         bool IsAuthentificated { get; }
 
-        User CurrentUser { get; }
+        UserDTO CurrentUserDto { get; }
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IAuctionManageService
     {
-        int NewAuction(Auction.Models.DTO.Auction auction);
+        int NewAuction(Auction.Models.DTO.AuctionDTO auctionDto);
 
         void StartAuction();
 

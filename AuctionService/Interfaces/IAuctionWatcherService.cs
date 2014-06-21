@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Auction.Models.DTO;
 
 namespace AuctionService.Interfaces
 {
     public interface IAuctionWatcherService
     {
-        IEnumerable<Auction.Models.DTO.Auction> AuctionsGet();
+        IEnumerable<AuctionDTO> AuctionsGet();
     }
 }

@@ -1,41 +1,54 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Auction.Data;
+using Auction.Models.DTO;
 using AuctionService.Interfaces;
+using AutoMapper;
 
 namespace AuctionService.Services
 {
     public class AuctionService : IAuctionService
     {
+        private readonly AuctionContext context;
+
         public AuctionService()
+            : this(new AuctionContext())
         {
 
         }
 
-        public int NewAuction(Auction.Models.DTO.Auction auction)
+        public AuctionService(AuctionContext context)
         {
-            using (var context = new AuctionContext())
-            {
-                var auctionEntity = AutoMapper.Mapper.Map<Auction.Data.Auction>(auction);
+            this.context = context;
+        }
 
-                auctionEntity = context.Auctions.Add(auctionEntity);
+        public int NewAuction(Auction.Models.DTO.AuctionDTO auctionDto)
+        {
+            var auctionEntity = AutoMapper.Mapper.Map<Auction.Data.Auction>(auctionDto);
 
-                context.SaveChanges();
+            auctionEntity = context.Auctions.Add(auctionEntity);
 
-                return auctionEntity.AuctionId;
-            }
+            context.SaveChanges();
+
+            return auctionEntity.AuctionId;
         }
 
         public void StartAuction()
         {
+
         }
 
         public void EndAuction()
         {
         }
 
-        public IEnumerable<Auction.Models.DTO.Auction> AuctionsGet()
+        public IEnumerable<AuctionDTO> AuctionsGet()
         {
-            return new List<Auction.Models.DTO.Auction>();
+            var auctions = context.Auctions.ToList();
+
+            var x = Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
+
+            return Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
         }
 
         public void Bid()

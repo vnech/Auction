@@ -16,6 +16,16 @@
           <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="LastBid" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
+        <EntityType Name="Bid">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AuctionId" Type="int" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="CratedAt" Type="smalldatetime" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+        </EntityType>
         <EntityType Name="Items">
           <Key>
             <PropertyRef Name="ItemId" />
@@ -63,6 +73,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Bid_Auctions">
+          <End Role="Auctions" Type="Self.Auctions" Multiplicity="1" />
+          <End Role="Bid" Type="Self.Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auctions">
+              <PropertyRef Name="AuctionId" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="AuctionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Item_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Items" Type="Self.Items" Multiplicity="*" />
@@ -101,6 +123,7 @@
         </Association>
         <EntityContainer Name="AuctionActionModelStoreContainer">
           <EntitySet Name="Auctions" EntityType="Self.Auctions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bid" EntityType="Self.Bid" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInRole" EntityType="Self.UserInRole" Schema="dbo" store:Type="Tables" />
@@ -108,6 +131,10 @@
           <AssociationSet Name="FK_Auctions_Items" Association="Self.FK_Auctions_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="Auctions" EntitySet="Auctions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bid_Auctions" Association="Self.FK_Bid_Auctions">
+            <End Role="Auctions" EntitySet="Auctions" />
+            <End Role="Bid" EntitySet="Bid" />
           </AssociationSet>
           <AssociationSet Name="FK_Item_Users" Association="Self.FK_Item_Users">
             <End Role="Users" EntitySet="Users" />
@@ -137,6 +164,7 @@
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="LastBid" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Auctions_Items" FromRole="Auctions" ToRole="Items" />
+          <NavigationProperty Name="Bids" Relationship="Auction.ActionModel.FK_Bid_Auctions" FromRole="Auction" ToRole="Bid" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -215,7 +243,35 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Bids" EntityType="Auction.ActionModel.Bid" />
+          <AssociationSet Name="FK_Bid_Auctions" Association="Auction.ActionModel.FK_Bid_Auctions">
+            <End Role="Auction" EntitySet="Auctions" />
+            <End Role="Bid" EntitySet="Bids" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Bid">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AuctionId" Type="Int32" Nullable="false" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="CratedAt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Auction" Relationship="Auction.ActionModel.FK_Bid_Auctions" FromRole="Bid" ToRole="Auction" />
+        </EntityType>
+        <Association Name="FK_Bid_Auctions">
+          <End Type="Auction.ActionModel.Auction" Role="Auction" Multiplicity="1" />
+          <End Type="Auction.ActionModel.Bid" Role="Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auction">
+              <PropertyRef Name="AuctionId" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="AuctionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -272,6 +328,17 @@
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Bids">
+            <EntityTypeMapping TypeName="Auction.ActionModel.Bid">
+              <MappingFragment StoreEntitySet="Bid">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CratedAt" ColumnName="CratedAt" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="AuctionId" ColumnName="AuctionId" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,13 +1,13 @@
 ﻿using Auction.Data;
 using Auction.Infrastructure.Interfaces;
+using Auction.Models.DTO;
 using AutoMapper;
-using User = Auction.Models.DTO.User;
 
 namespace Auction.Infrastructure.Controllers
 {
     public class AccountControler: IAccountController
     {
-        public void Login(User user)
+        public void Login(UserDTO userDto)
         {
         }
 
@@ -15,11 +15,11 @@ namespace Auction.Infrastructure.Controllers
         {
         }
 
-        public int SignUp(User user)
+        public int SignUp(UserDTO userDto)
         {
             using (var context = new AuctionContext())
             {
-                var userEntity = Mapper.Map<Data.User>(user);
+                var userEntity = Mapper.Map<Data.User>(userDto);
 
                 userEntity = context.Users.Add(userEntity);
 
@@ -31,6 +31,6 @@ namespace Auction.Infrastructure.Controllers
 
         public bool IsAuthentificated { get; private set; }
 
-        public User CurrentUser { get; private set; }
+        public UserDTO CurrentUserDto { get; private set; }
     }
 }

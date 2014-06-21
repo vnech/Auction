@@ -2,7 +2,7 @@
 
 namespace Auction.Models.DTO
 {
-    public class Item : PropertyChangedBase
+    public class ItemDTO : PropertyChangedBase
     {
         private string _itemName;
         private int _itemId;

@@ -5,7 +5,7 @@ namespace Auction.Interfaces
 {
     public interface ILoginViewModel : IViewModel
     {
-        User User { get; set; }
+        UserDTO UserDto { get; set; }
 
         void Login();
     }

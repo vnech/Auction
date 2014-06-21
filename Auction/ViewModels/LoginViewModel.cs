@@ -8,21 +8,21 @@ namespace Auction.ViewModels
     public class LoginViewModel : Screen, ILoginViewModel
     {
         private IAccountController _accountController;
-        private User _user;
+        private UserDTO _userDto;
 
         public LoginViewModel(IAccountController accountController)
         {
             this._accountController = accountController;
-            _user = new User();
+            _userDto = new UserDTO();
         }
 
-        public User User
+        public UserDTO UserDto
         {
-            get { return _user; }
+            get { return _userDto; }
             set
             {
-                if (Equals(value, _user)) return;
-                _user = value;
+                if (Equals(value, _userDto)) return;
+                _userDto = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -34,9 +34,9 @@ namespace Auction.ViewModels
 
         public void Confirm()
         {
-            _accountController.SignUp(User);
+            _accountController.SignUp(UserDto);
 
-            User = new User();
+            UserDto = new UserDTO();
         }
 
         public bool CanConfirm()

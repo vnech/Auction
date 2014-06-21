@@ -4,7 +4,7 @@ namespace Auction.Interfaces
 {
     public interface INewAuctionDialogViewModel: IViewModel
     {
-        Models.DTO.Auction Auction { get; set; }
+        Models.DTO.AuctionDTO AuctionDto { get; set; }
 
         void Create();
     }

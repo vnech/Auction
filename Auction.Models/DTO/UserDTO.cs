@@ -2,7 +2,7 @@
 
 namespace Auction.Models.DTO
 {
-    public class User: PropertyChangedBase
+    public class UserDTO: PropertyChangedBase
     {
         private string _userName;
         private string _password;

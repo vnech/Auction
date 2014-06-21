@@ -66,6 +66,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AuctionModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Bid.cs">
+      <DependentUpon>AuctionModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Item.cs">
       <DependentUpon>AuctionModel.tt</DependentUpon>
     </Compile>

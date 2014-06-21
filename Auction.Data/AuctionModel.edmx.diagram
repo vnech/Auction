@@ -12,6 +12,8 @@
         <AssociationConnector Association="Auction.ActionModel.FK_Auctions_Items" ManuallyRouted="false" />
         <AssociationConnector Association="Auction.ActionModel.FK_Item_Users" ManuallyRouted="false" />
         <AssociationConnector Association="Auction.ActionModel.UserInRole" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Auction.ActionModel.Bid" Width="1.5" PointX="9.75" PointY="1.25" />
+        <AssociationConnector Association="Auction.ActionModel.FK_Bid_Auctions" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

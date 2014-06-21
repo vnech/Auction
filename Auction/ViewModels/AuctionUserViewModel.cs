@@ -1,5 +1,6 @@
 ﻿using Auction.Infrastructure.Interfaces;
 using Auction.Interfaces;
+using Auction.Models.DTO;
 using AuctionService.Interfaces;
 using Caliburn.Micro;
 
@@ -28,7 +29,11 @@ namespace Auction.ViewModels
             _newAuctionDialogViewModel = newAuctionDialogViewModel;
             _loginViewModel = loginViewModel;
             _newItemDialogViewModel = newItemDialogViewModel;
+
+            Auctions = new BindableCollection<AuctionDTO>(_auctionService.AuctionsGet());
         }
+
+        public BindableCollection<AuctionDTO> Auctions { get; set; }
 
         #region IAuctionUserViewModelBase
 

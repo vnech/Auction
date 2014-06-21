@@ -42,11 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\Auction.cs" />
-    <Compile Include="DTO\Bid.cs" />
-    <Compile Include="DTO\Item.cs" />
-    <Compile Include="DTO\Lot.cs" />
-    <Compile Include="DTO\User.cs" />
+    <Compile Include="DTO\AuctionDTO.cs" />
+    <Compile Include="DTO\BidDTO.cs" />
+    <Compile Include="DTO\ItemDTO.cs" />
+    <Compile Include="DTO\LotDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

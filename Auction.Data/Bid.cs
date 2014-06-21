@@ -12,21 +12,14 @@ namespace Auction.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Auction
+    public partial class Bid
     {
-        public Auction()
-        {
-            this.Bids = new HashSet<Bid>();
-        }
-    
+        public int BidId { get; set; }
         public int AuctionId { get; set; }
-        public int ItemId { get; set; }
-        public decimal StartPrice { get; set; }
-        public decimal CurrentPrice { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime LastBid { get; set; }
+        public int BidderId { get; set; }
+        public System.DateTime CratedAt { get; set; }
+        public decimal Amount { get; set; }
     
-        public virtual Item Item { get; set; }
-        public virtual ICollection<Bid> Bids { get; set; }
+        public virtual Auction Auction { get; set; }
     }
 }

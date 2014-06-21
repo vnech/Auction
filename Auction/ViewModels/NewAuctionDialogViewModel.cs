@@ -8,36 +8,36 @@ namespace Auction.ViewModels
     {
         private readonly IAuctionService _auctionService;
 
-        private Models.DTO.Auction _auction;
+        private Models.DTO.AuctionDTO _auctionDto;
 
         public NewAuctionDialogViewModel(IAuctionService auctionService)
         {
             _auctionService = auctionService;
-            Auction = new Models.DTO.Auction();
+            AuctionDto = new Models.DTO.AuctionDTO();
         }
 
-        public Models.DTO.Auction Auction
+        public Models.DTO.AuctionDTO AuctionDto
         {
-            get { return _auction; }
+            get { return _auctionDto; }
             set
             {
-                if (Equals(value, _auction)) return;
-                _auction = value;
+                if (Equals(value, _auctionDto)) return;
+                _auctionDto = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public void Create()
         {
-            _auctionService.NewAuction(Auction);
+            _auctionService.NewAuction(AuctionDto);
 
-            Auction = new Auction.Models.DTO.Auction();
+            AuctionDto = new Auction.Models.DTO.AuctionDTO();
         }
 
         public bool CanCreate()
         {
             return true;
-            //return !string.IsNullOrEmpty(Auction.ItemName);
+            //return !string.IsNullOrEmpty(AuctionDTO.ItemName);
         }
     }
 }

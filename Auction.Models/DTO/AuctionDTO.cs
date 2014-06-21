@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 
 namespace Auction.Models.DTO
 {
-    public class Auction: PropertyChangedBase
+    public class AuctionDTO: PropertyChangedBase
     {
         private int _auctionId;
-        private string _itemName;
         private DateTime _startDate;
         private decimal _startPrice;
+        private int _itemId;
+        private ItemDTO _item;
+        private IEnumerable<BidDTO> _bids;
 
         public int AuctionId
         {
@@ -21,13 +24,13 @@ namespace Auction.Models.DTO
             }
         }
 
-        public string ItemName
+        public int ItemId
         {
-            get { return _itemName; }
+            get { return _itemId; }
             set
             {
-                if (value == _itemName) return;
-                _itemName = value;
+                if (value == _itemId) return;
+                _itemId = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -50,6 +53,28 @@ namespace Auction.Models.DTO
             {
                 if (value == _startPrice) return;
                 _startPrice = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public ItemDTO Item
+        {
+            get { return _item; }
+            set
+            {
+                if (Equals(value, _item)) return;
+                _item = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public IEnumerable<BidDTO> Bids
+        {
+            get { return _bids; }
+            set
+            {
+                if (Equals(value, _bids)) return;
+                _bids = value;
                 NotifyOfPropertyChange();
             }
         }
