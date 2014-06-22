@@ -38,6 +38,13 @@ namespace Auction.ViewModels
             Auctions = new ObservableCollection<AuctionDTO>(_auctionService.AuctionsGet());
 
             _auctionService.OnAuctionsChange += AuctionService_OnAuctionsChange;
+
+            _accountController.PropertyChanged += AccountController_PropertyChanged;
+        }
+
+        private void AccountController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => CanNewItem);
         }
 
         private void AuctionService_OnAuctionsChange(object sender, System.EventArgs e)
@@ -119,14 +126,19 @@ namespace Auction.ViewModels
             bool? showDialog = _windowManager.ShowDialog(_newAuctionDialogViewModel);
         }
 
+        public bool CanNewAuction()
+        {
+            return true;
+        }
+
         public void NewItem()
         {
             bool? showDialog = _windowManager.ShowDialog(_newItemDialogViewModel);
         }
 
-        public bool CanNewAuction()
+        public bool CanNewItem
         {
-            return true;
+            get { return _accountController.IsAuthentificated; }
         }
 
         public void EndAuction()

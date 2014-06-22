@@ -9,7 +9,7 @@ namespace AuctionService.Services
 {
     public class AccountControler : PropertyChangedBase, IAccountController
     {
-        private AuctionContext _context;
+        private readonly AuctionContext _context;
         private UserDTO _currentUser;
 
         public AccountControler()

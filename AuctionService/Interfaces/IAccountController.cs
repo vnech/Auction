@@ -1,8 +1,9 @@
-﻿using Auction.Models.DTO;
+﻿using System.ComponentModel;
+using Auction.Models.DTO;
 
 namespace AuctionService.Interfaces
 {
-    public interface IAccountController
+    public interface IAccountController: INotifyPropertyChanged
     {
         bool Login(UserDTO userDto);
 

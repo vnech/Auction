@@ -11,10 +11,7 @@ namespace AuctionService.Services
 {
     public class AuctionService : IAuctionService
     {
-        public event EventHandler OnAuctionsChange;
-
-        private LiveNotification<Auction.Data.Auction> _notification; 
-
+        private LiveNotification<Auction.Data.Auction> _auctionsChangedNotification; 
         private readonly AuctionContext _context;
 
         public AuctionService()
@@ -25,19 +22,18 @@ namespace AuctionService.Services
 
         public AuctionService(AuctionContext context)
         {
-            this._context = context;
-
+            _context = context;
 
             //todo: refactor
 
             var query = from auction in _context.Auctions select auction;
 
-            _notification = new LiveNotification<Auction.Data.Auction>(_context, query);
+            _auctionsChangedNotification = new LiveNotification<Auction.Data.Auction>(_context, query);
 
-            _notification.OnChanged += Notification_OnChanged;
+            _auctionsChangedNotification.OnChanged += AuctionsChangedNotificationOnChanged;
         }
 
-        private void Notification_OnChanged(object sender, EventArgs e)
+        private void AuctionsChangedNotificationOnChanged(object sender, EventArgs e)
         {
             if (OnAuctionsChange != null)
             {
@@ -70,6 +66,8 @@ namespace AuctionService.Services
         #endregion IAuctionManageService
 
         #region IAuctionWatcherService
+
+        public event EventHandler OnAuctionsChange;
 
         public IEnumerable<AuctionDTO> AuctionsGet()
         {
