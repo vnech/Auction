@@ -56,6 +56,14 @@ namespace AuctionService.Services
             get { return CurrentUser != null; }
         }
 
+        public bool IsAdmin
+        {
+            get
+            {
+                return IsAuthentificated && CurrentUser.UserLevel == 1;
+            }
+        }
+
         public UserDTO CurrentUser
         {
             get { return _currentUser; }

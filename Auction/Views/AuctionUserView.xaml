@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <DataGrid SelectedItem="SelectedAuction" ItemsSource="{Binding Auctions, Mode=TwoWay}" AutoGenerateColumns="False" Grid.Column="0">
+                <DataGrid SelectedItem="SelectedAuction" ItemsSource="{Binding Auctions, Mode=TwoWay}" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Auction ID" Binding="{Binding AuctionId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Item Name" Binding="{Binding Item.ItemName}"></DataGridTextColumn>

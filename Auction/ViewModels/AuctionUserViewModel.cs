@@ -8,7 +8,7 @@ using Caliburn.Micro;
 
 namespace Auction.ViewModels
 {
-    public class AuctionUserViewModel: Screen, IAuctionAdminViewModel
+    public class AuctionUserViewModel : Screen, IAuctionAdminViewModel
     {
         private readonly IAccountController _accountController;
         private readonly IAuctionService _auctionService;
@@ -19,10 +19,10 @@ namespace Auction.ViewModels
         private readonly IBidAuctionViewModel _bidAuctionViewModel;
         private AuctionDTO _selectedAuction;
 
-        public AuctionUserViewModel(IAccountController accountController, 
-                                    IAuctionService auctionService, 
-                                    IWindowManager windowManager, 
-                                    INewAuctionDialogViewModel newAuctionDialogViewModel, 
+        public AuctionUserViewModel(IAccountController accountController,
+                                    IAuctionService auctionService,
+                                    IWindowManager windowManager,
+                                    INewAuctionDialogViewModel newAuctionDialogViewModel,
                                     ILoginViewModel loginViewModel,
                                     INewItemDialogViewModel newItemDialogViewModel,
                                     IBidAuctionViewModel bidAuctionViewModel)
@@ -45,6 +45,10 @@ namespace Auction.ViewModels
         private void AccountController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             NotifyOfPropertyChange(() => CanNewItem);
+            NotifyOfPropertyChange(() => CanNewAuction);
+            NotifyOfPropertyChange(() => CanEndAuction);
+            NotifyOfPropertyChange(() => CanStartAuction);
+            NotifyOfPropertyChange(() => CanBid);
         }
 
         private void AuctionService_OnAuctionsChange(object sender, System.EventArgs e)
@@ -103,9 +107,12 @@ namespace Auction.ViewModels
             bool? showDialog = _windowManager.ShowDialog(_bidAuctionViewModel);
         }
 
-        public bool CanBid()
+        public bool CanBid
         {
-            return true;
+            get
+            {
+                return _accountController.IsAuthentificated;
+            }
         }
 
         #endregion IAuctionUserViewMode
@@ -116,9 +123,12 @@ namespace Auction.ViewModels
         {
         }
 
-        public bool CanStartAuction()
+        public bool CanStartAuction
         {
-            return _accountController.IsAuthentificated;
+            get
+            {
+                return _accountController.IsAdmin;
+            }
         }
 
         public void NewAuction()
@@ -126,10 +136,14 @@ namespace Auction.ViewModels
             bool? showDialog = _windowManager.ShowDialog(_newAuctionDialogViewModel);
         }
 
-        public bool CanNewAuction()
+        public bool CanNewAuction
         {
-            return true;
+            get
+            {
+                return _accountController.IsAdmin;
+            }
         }
+
 
         public void NewItem()
         {
@@ -138,16 +152,22 @@ namespace Auction.ViewModels
 
         public bool CanNewItem
         {
-            get { return _accountController.IsAuthentificated; }
+            get
+            {
+                return _accountController.IsAdmin;
+            }
         }
 
         public void EndAuction()
         {
         }
 
-        public bool CanEndAuction()
+        public bool CanEndAuction
         {
-            return true;
+            get
+            {
+                return _accountController.IsAdmin;
+            }
         }
 
         #endregion IAuctionAdminViewModel

@@ -13,6 +13,8 @@ namespace AuctionService.Interfaces
 
         bool IsAuthentificated { get; }
 
+        bool IsAdmin { get; }
+
         UserDTO CurrentUser { get; }
     }
 }
