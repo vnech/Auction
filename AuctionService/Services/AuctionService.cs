@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Auction.Data;
+using Auction.Data.Notifications;
 using Auction.Models.DTO;
 using AuctionService.Interfaces;
 using AutoMapper;
@@ -10,7 +11,11 @@ namespace AuctionService.Services
 {
     public class AuctionService : IAuctionService
     {
-        private readonly AuctionContext context;
+        public event EventHandler OnAuctionsChange;
+
+        private LiveNotification<Auction.Data.Auction> _notification; 
+
+        private readonly AuctionContext _context;
 
         public AuctionService()
             : this(new AuctionContext())
@@ -20,18 +25,35 @@ namespace AuctionService.Services
 
         public AuctionService(AuctionContext context)
         {
-            this.context = context;
+            this._context = context;
+
+
+            //todo: refactor
+
+            var query = from auction in _context.Auctions select auction;
+
+            _notification = new LiveNotification<Auction.Data.Auction>(_context, query);
+
+            _notification.OnChanged += Notification_OnChanged;
+        }
+
+        private void Notification_OnChanged(object sender, EventArgs e)
+        {
+            if (OnAuctionsChange != null)
+            {
+                OnAuctionsChange(this, null);
+            }
         }
 
         #region IAuctionManageService
 
-        public int NewAuction(AuctionDTO auctionDto)
+        public int NewAuction(AuctionDTO auction)
         {
-            var auctionEntity = Mapper.Map<Auction.Data.Auction>(auctionDto);
+            var auctionEntity = Mapper.Map<Auction.Data.Auction>(auction);
 
-            auctionEntity = context.Auctions.Add(auctionEntity);
+            auctionEntity = _context.Auctions.Add(auctionEntity);
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return auctionEntity.AuctionId;
         }
@@ -51,7 +73,7 @@ namespace AuctionService.Services
 
         public IEnumerable<AuctionDTO> AuctionsGet()
         {
-            var auctions = context.Auctions.ToList();
+            var auctions = _context.Auctions.ToList();
 
             var x = Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
 
@@ -68,9 +90,9 @@ namespace AuctionService.Services
             
             var bidEntity = Mapper.Map<Auction.Data.Bid>(bid);
 
-            bidEntity = context.Bids.Add(bidEntity);
+            bidEntity = _context.Bids.Add(bidEntity);
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         #endregion IAuctionBiddingService

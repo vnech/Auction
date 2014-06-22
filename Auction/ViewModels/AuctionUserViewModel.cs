@@ -1,6 +1,9 @@
-﻿using Auction.Interfaces;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using Auction.Interfaces;
 using Auction.Models.DTO;
 using AuctionService.Interfaces;
+using AutoMapper;
 using Caliburn.Micro;
 
 namespace Auction.ViewModels
@@ -32,10 +35,25 @@ namespace Auction.ViewModels
             _newItemDialogViewModel = newItemDialogViewModel;
             _bidAuctionViewModel = bidAuctionViewModel;
 
-            Auctions = new BindableCollection<AuctionDTO>(_auctionService.AuctionsGet());
+            Auctions = new ObservableCollection<AuctionDTO>(_auctionService.AuctionsGet());
+
+            _auctionService.OnAuctionsChange += AuctionService_OnAuctionsChange;
         }
 
-        public BindableCollection<AuctionDTO> Auctions { get; set; }
+        private void AuctionService_OnAuctionsChange(object sender, System.EventArgs e)
+        {
+            //todo: refactor
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Auctions.Clear();
+
+                var auctions = _auctionService.AuctionsGet();
+
+                auctions.Each(a => Auctions.Add(a));
+            });
+        }
+
+        public ObservableCollection<AuctionDTO> Auctions { get; set; }
 
         public AuctionDTO SelectedAuction
         {

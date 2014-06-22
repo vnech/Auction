@@ -4,7 +4,7 @@ namespace AuctionService.Interfaces
 {
     public interface IItemService
     {
-        ItemDTO NewItem(ItemDTO itemDto);
+        ItemDTO NewItem(ItemDTO item);
 
         void DeleteItem(ItemDTO itemDto);
 

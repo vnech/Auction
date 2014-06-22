@@ -8,30 +8,30 @@ namespace Auction.ViewModels
     public class NewItemDialogViewModel: Screen, INewItemDialogViewModel
     {
         private readonly IItemService _itemService;
-        private ItemDTO _itemDto;
+        private ItemDTO _item;
         
         public NewItemDialogViewModel(IItemService itemService)
         {
             _itemService = itemService;
-            _itemDto = new ItemDTO();
+            _item = new ItemDTO();
         }
 
-        public ItemDTO ItemDto
+        public ItemDTO Item
         {
-            get { return _itemDto; }
+            get { return _item; }
             set
             {
-                if (Equals(value, _itemDto)) return;
-                _itemDto = value;
+                if (Equals(value, _item)) return;
+                _item = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public void Create()
         {
-            _itemService.NewItem(ItemDto);
+            _itemService.NewItem(Item);
 
-            ItemDto = new ItemDTO();
+            Item = new ItemDTO();
         }
     }
 }

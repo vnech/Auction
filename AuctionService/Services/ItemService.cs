@@ -8,11 +8,11 @@ namespace AuctionService.Services
 {
     public class ItemService : IItemService
     {
-        public ItemDTO NewItem(ItemDTO itemDto)
+        public ItemDTO NewItem(ItemDTO item)
         {
             using (var context = new AuctionContext())
             {
-                var itemEntity = Mapper.Map<Auction.Data.Item>(itemDto);
+                var itemEntity = Mapper.Map<Auction.Data.Item>(item);
 
                 itemEntity = context.Items.Add(itemEntity);
 

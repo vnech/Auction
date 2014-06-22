@@ -72,6 +72,8 @@
     <Compile Include="Item.cs">
       <DependentUpon>AuctionModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Notifications\LiveNotification.cs" />
+    <Compile Include="Notifications\QueryExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs">
       <DependentUpon>AuctionModel.tt</DependentUpon>
