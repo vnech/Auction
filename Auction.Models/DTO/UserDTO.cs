@@ -1,8 +1,9 @@
-﻿using Caliburn.Micro;
+﻿using Auction.Infrastructure.Interfaces;
+using Caliburn.Micro;
 
 namespace Auction.Models.DTO
 {
-    public class UserDTO: PropertyChangedBase
+    public class UserDTO : PropertyChangedBase, IResetable
     {
         private string _userName;
         private string _password;
@@ -40,6 +41,15 @@ namespace Auction.Models.DTO
                 _userLevel = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public void Reset()
+        {
+            UserName = string.Empty;
+            Password = string.Empty;
+            UserLevel = 0;
+
+            this.Refresh();
         }
     }
 }

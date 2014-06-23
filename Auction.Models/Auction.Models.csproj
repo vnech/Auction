@@ -47,6 +47,8 @@
     <Compile Include="DTO\ItemDTO.cs" />
     <Compile Include="DTO\LotDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="ErrorMessage.cs" />
+    <Compile Include="IResetable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

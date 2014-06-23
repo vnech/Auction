@@ -15,7 +15,6 @@ namespace Auction.ViewModels
         private readonly IWindowManager _windowManager;
         private readonly INewAuctionDialogViewModel _newAuctionDialogViewModel;
         private readonly INewItemDialogViewModel _newItemDialogViewModel;
-        private readonly ILoginViewModel _loginViewModel;
         private readonly IBidAuctionViewModel _bidAuctionViewModel;
         private AuctionDTO _selectedAuction;
 
@@ -23,7 +22,6 @@ namespace Auction.ViewModels
                                     IAuctionService auctionService,
                                     IWindowManager windowManager,
                                     INewAuctionDialogViewModel newAuctionDialogViewModel,
-                                    ILoginViewModel loginViewModel,
                                     INewItemDialogViewModel newItemDialogViewModel,
                                     IBidAuctionViewModel bidAuctionViewModel)
         {
@@ -31,7 +29,6 @@ namespace Auction.ViewModels
             _auctionService = auctionService;
             _windowManager = windowManager;
             _newAuctionDialogViewModel = newAuctionDialogViewModel;
-            _loginViewModel = loginViewModel;
             _newItemDialogViewModel = newItemDialogViewModel;
             _bidAuctionViewModel = bidAuctionViewModel;
 
@@ -54,6 +51,8 @@ namespace Auction.ViewModels
         private void AuctionService_OnAuctionsChange(object sender, System.EventArgs e)
         {
             //todo: refactor
+         
+            //todo: update ui on editing
             App.Current.Dispatcher.Invoke(() =>
             {
                 Auctions.Clear();
@@ -81,7 +80,7 @@ namespace Auction.ViewModels
 
         public void Login()
         {
-            bool? showDialog = _windowManager.ShowDialog(_loginViewModel);
+            bool? showDialog = _windowManager.ShowDialog(IoC.Get<ILoginViewModel>());
         }
 
         public bool CanLogin()

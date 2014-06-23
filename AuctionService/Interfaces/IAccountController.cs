@@ -9,7 +9,7 @@ namespace AuctionService.Interfaces
 
         void LogOut();
 
-        void SignUp(UserDTO userDto);
+        bool SignUp(UserDTO user);
 
         bool IsAuthentificated { get; }
 

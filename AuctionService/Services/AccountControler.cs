@@ -40,15 +40,20 @@ namespace AuctionService.Services
         {
         }
 
-        public void SignUp(UserDTO userDto)
+        public bool SignUp(UserDTO user)
         {
-            var entity = Mapper.Map<Auction.Data.User>(userDto);
+            if (IsUserExist(user))
+                return false;
+
+            var entity = Mapper.Map<Auction.Data.User>(user);
 
             entity = _context.Users.Add(entity);
 
             _context.SaveChanges();
 
             CurrentUserInit(entity);
+
+            return true;
         }
 
         public bool IsAuthentificated
@@ -78,6 +83,11 @@ namespace AuctionService.Services
         private void CurrentUserInit(User user)
         {
             CurrentUser = Mapper.Map<UserDTO>(user);
+        }
+
+        private bool IsUserExist(UserDTO user)
+        {
+            return _context.Users.Any(u => u.UserName == user.UserName);
         }
     }
 }
