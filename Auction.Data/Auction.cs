@@ -22,9 +22,9 @@ namespace Auction.Data
         public int AuctionId { get; set; }
         public int ItemId { get; set; }
         public decimal StartPrice { get; set; }
-        public decimal CurrentPrice { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime LastBid { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public short Status { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }

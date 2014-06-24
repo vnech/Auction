@@ -17,7 +17,7 @@ namespace Auction.Data
         public User()
         {
             this.Items = new HashSet<Item>();
-            this.Roles = new HashSet<Role>();
+            this.Roles = new HashSet<m>();
         }
     
         public int UserId { get; set; }
@@ -26,6 +26,6 @@ namespace Auction.Data
         public short UserLevel { get; set; }
     
         public virtual ICollection<Item> Items { get; set; }
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<m> Roles { get; set; }
     }
 }

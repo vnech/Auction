@@ -12,9 +12,9 @@ namespace Auction.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class m
     {
-        public Role()
+        public m()
         {
             this.Users = new HashSet<User>();
         }

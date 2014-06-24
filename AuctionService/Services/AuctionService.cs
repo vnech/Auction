@@ -11,7 +11,7 @@ namespace AuctionService.Services
 {
     public class AuctionService : IAuctionService
     {
-        private LiveNotification<Auction.Data.Auction> _auctionsChangedNotification; 
+        private LiveNotification<Auction.Data.Auction> _auctionsChangedNotification;
         private readonly AuctionContext _context;
 
         public AuctionService()
@@ -47,6 +47,12 @@ namespace AuctionService.Services
         {
             var auctionEntity = Mapper.Map<Auction.Data.Auction>(auction);
 
+            auctionEntity.CreatedAt = DateTime.Now;
+
+            auctionEntity.StartDate = null;
+
+            auction.Status = (int) AuctionStatus.NotStarted;
+
             auctionEntity = _context.Auctions.Add(auctionEntity);
 
             _context.SaveChanges();
@@ -54,13 +60,41 @@ namespace AuctionService.Services
             return auctionEntity.AuctionId;
         }
 
-        public void StartAuction()
+        public void StartAuction(AuctionDTO auction)
         {
+            var entity = _context.Auctions.FirstOrDefault(a => a.AuctionId == auction.AuctionId);
 
+            if (entity != null)
+            {
+                entity.StartDate = DateTime.Now;
+
+                entity.Status = (int)AuctionStatus.Started;
+
+                _context.SaveChanges();
+            }
         }
 
-        public void EndAuction()
+        public void EndAuction(AuctionDTO auction)
         {
+            var entity = _context.Auctions.FirstOrDefault(a => a.AuctionId == auction.AuctionId);
+
+            if (entity != null)
+            {
+                entity.Status = (int)AuctionStatus.Ended;
+
+                _context.SaveChanges();
+            }
+        }
+
+        public bool CanAuctionBeStarted(AuctionDTO auction)
+        {
+            return auction != null && auction.Status == AuctionStatus.NotStarted;
+            //|| auction.Status == AuctionStatus.Suspended;
+        }
+
+        public bool CanAuctionBeEnded(AuctionDTO auction)
+        {
+            return auction != null && auction.Status == AuctionStatus.Started;
         }
 
         #endregion IAuctionManageService
@@ -85,7 +119,7 @@ namespace AuctionService.Services
         public void Bid(BidDTO bid)
         {
             bid.CreatedAt = DateTime.Now;
-            
+
             var bidEntity = Mapper.Map<Auction.Data.Bid>(bid);
 
             bidEntity = _context.Bids.Add(bidEntity);

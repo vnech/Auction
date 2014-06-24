@@ -73,6 +73,9 @@ namespace Auction.ViewModels
                 if (Equals(value, _selectedAuction)) return;
                 _selectedAuction = value;
                 NotifyOfPropertyChange();
+
+                NotifyOfPropertyChange(() => CanStartAuction);
+                NotifyOfPropertyChange(() => CanEndAuction);
             }
         }
 
@@ -120,13 +123,14 @@ namespace Auction.ViewModels
 
         public void StartAuction()
         {
+            _auctionService.StartAuction(SelectedAuction);
         }
 
         public bool CanStartAuction
         {
             get
             {
-                return _accountController.IsAdmin;
+                return _accountController.IsAdmin && _auctionService.CanAuctionBeStarted(SelectedAuction);
             }
         }
 
@@ -143,7 +147,6 @@ namespace Auction.ViewModels
             }
         }
 
-
         public void NewItem()
         {
             bool? showDialog = _windowManager.ShowDialog(_newItemDialogViewModel);
@@ -159,13 +162,14 @@ namespace Auction.ViewModels
 
         public void EndAuction()
         {
+            _auctionService.EndAuction(SelectedAuction);
         }
 
         public bool CanEndAuction
         {
             get
             {
-                return _accountController.IsAdmin;
+                return _accountController.IsAdmin && _auctionService.CanAuctionBeEnded(SelectedAuction);
             }
         }
 

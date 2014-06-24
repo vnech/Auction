@@ -32,6 +32,8 @@ namespace Auction.ViewModels
             _auctionService.NewAuction(Auction);
 
             Auction = new Auction.Models.DTO.AuctionDTO();
+
+            TryClose(true);
         }
 
         public bool CanCreate()

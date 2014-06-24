@@ -19,10 +19,6 @@
                 <Label Content="Description:" Height="28" HorizontalAlignment="Left" Width="75" />
                 <TextBox Text="{Binding Item.ItemDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
             </StackPanel>        
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <Label Content="Seller Id:" Height="28" HorizontalAlignment="Left" Width="75" />
-                <TextBox Text="{Binding Item.SellerId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
-            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="Create" Content="Create" Height="23" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" />
             </StackPanel>

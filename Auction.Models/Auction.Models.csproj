@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\AuctionDTO.cs" />
+    <Compile Include="DTO\AuctionStatus.cs" />
     <Compile Include="DTO\BidDTO.cs" />
     <Compile Include="DTO\ItemDTO.cs" />
     <Compile Include="DTO\LotDTO.cs" />

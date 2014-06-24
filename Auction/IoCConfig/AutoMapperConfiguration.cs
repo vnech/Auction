@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using Auction.Models.DTO;
+using AutoMapper;
 
 namespace Auction.IoCConfig
 {
@@ -6,8 +8,8 @@ namespace Auction.IoCConfig
     {
         public static void Initiallize()
         {
-            Mapper.CreateMap<Auction.Models.DTO.AuctionDTO, Auction.Data.Auction>();
-            Mapper.CreateMap<Auction.Data.Auction, Auction.Models.DTO.AuctionDTO>();
+            Mapper.CreateMap<Auction.Models.DTO.AuctionDTO, Auction.Data.Auction>().ForMember(d => d.Status, o => o.MapFrom(y => (int)y.Status));
+            Mapper.CreateMap<Auction.Data.Auction, Auction.Models.DTO.AuctionDTO>().ForMember(d => d.Status, o => o.MapFrom(src => (AuctionStatus)src.Status));
 
             Mapper.CreateMap<Auction.Models.DTO.UserDTO, Auction.Data.User>();
             Mapper.CreateMap<Auction.Data.User, Auction.Models.DTO.UserDTO>();

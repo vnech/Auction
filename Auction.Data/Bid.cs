@@ -17,7 +17,7 @@ namespace Auction.Data
         public int BidId { get; set; }
         public int AuctionId { get; set; }
         public int BidderId { get; set; }
-        public System.DateTime CratedAt { get; set; }
+        public System.DateTime CreatedAt { get; set; }
         public decimal Amount { get; set; }
     
         public virtual Auction Auction { get; set; }

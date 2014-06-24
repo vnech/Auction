@@ -7,11 +7,13 @@ namespace Auction.ViewModels
 {
     public class NewItemDialogViewModel: Screen, INewItemDialogViewModel
     {
+        private readonly IAccountController _accountController;
         private readonly IItemService _itemService;
         private ItemDTO _item;
         
-        public NewItemDialogViewModel(IItemService itemService)
+        public NewItemDialogViewModel(IItemService itemService, IAccountController accountController)
         {
+            _accountController = accountController;
             _itemService = itemService;
             _item = new ItemDTO();
         }
@@ -29,9 +31,13 @@ namespace Auction.ViewModels
 
         public void Create()
         {
+            _item.SellerId = _accountController.CurrentUser.UserId;
+
             _itemService.NewItem(Item);
 
             Item = new ItemDTO();
+
+            TryClose(true);
         }
     }
 }

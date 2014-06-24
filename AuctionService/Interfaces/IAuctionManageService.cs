@@ -1,11 +1,17 @@
-﻿namespace AuctionService.Interfaces
+﻿using Auction.Models.DTO;
+
+namespace AuctionService.Interfaces
 {
     public interface IAuctionManageService
     {
-        int NewAuction(Auction.Models.DTO.AuctionDTO auction);
+        int NewAuction(AuctionDTO auction);
 
-        void StartAuction();
+        void StartAuction(AuctionDTO auction);
 
-        void EndAuction();
+        void EndAuction(AuctionDTO auction);
+
+        bool CanAuctionBeStarted(AuctionDTO auction);
+
+        bool CanAuctionBeEnded(AuctionDTO auction);
     }
 }

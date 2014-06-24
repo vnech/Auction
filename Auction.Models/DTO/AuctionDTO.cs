@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Auction.Infrastructure.Interfaces;
 using Caliburn.Micro;
 
 namespace Auction.Models.DTO
 {
-    public class AuctionDTO: PropertyChangedBase
+    public class AuctionDTO: PropertyChangedBase, IResetable
     {
         private int _auctionId;
         private DateTime _startDate;
@@ -12,6 +13,7 @@ namespace Auction.Models.DTO
         private int _itemId;
         private ItemDTO _item;
         private IEnumerable<BidDTO> _bids;
+        private AuctionStatus _status;
 
         public int AuctionId
         {
@@ -77,6 +79,21 @@ namespace Auction.Models.DTO
                 _bids = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public AuctionStatus Status
+        {
+            get { return _status; }
+            set
+            {
+                if (value == _status) return;
+                _status = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void Reset()
+        {
         }
     }
 }
