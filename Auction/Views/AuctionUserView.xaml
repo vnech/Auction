@@ -46,6 +46,7 @@
                 <Button Height="40" Width="100" Margin="10" x:Name="StartAuction">
                     <TextBlock>Start Auction</TextBlock>
                 </Button>
+                <TextBlock Text="{Binding Time}"></TextBlock>
                 <Button Height="40" Width="100" Margin="10" x:Name="EndAuction">
                     <TextBlock>End Auction</TextBlock>
                 </Button>

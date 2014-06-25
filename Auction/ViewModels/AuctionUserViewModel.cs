@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Threading;
 using Auction.Interfaces;
 using Auction.Models.DTO;
@@ -17,6 +19,7 @@ namespace Auction.ViewModels
         private readonly INewItemDialogViewModel _newItemDialogViewModel;
         private readonly IBidAuctionViewModel _bidAuctionViewModel;
         private AuctionDTO _selectedAuction;
+        private int _time;
 
         public AuctionUserViewModel(IAccountController accountController,
                                     IAuctionService auctionService,
@@ -37,6 +40,13 @@ namespace Auction.ViewModels
             _auctionService.OnAuctionsChange += AuctionService_OnAuctionsChange;
 
             _accountController.PropertyChanged += AccountController_PropertyChanged;
+
+            Timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1)
+            };
+
+            Timer.Tick += Timer_Tick;
         }
 
         private void AccountController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -51,7 +61,7 @@ namespace Auction.ViewModels
         private void AuctionService_OnAuctionsChange(object sender, System.EventArgs e)
         {
             //todo: refactor
-         
+
             //todo: update ui on editing
             App.Current.Dispatcher.Invoke(() =>
             {
@@ -61,6 +71,19 @@ namespace Auction.ViewModels
 
                 auctions.Each(a => Auctions.Add(a));
             });
+        }
+
+        public DispatcherTimer Timer { get; set; }
+
+        public int Time
+        {
+            get { return _time; }
+            set
+            {
+                if (value.Equals(_time)) return;
+                _time = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         public ObservableCollection<AuctionDTO> Auctions { get; set; }
@@ -74,9 +97,21 @@ namespace Auction.ViewModels
                 _selectedAuction = value;
                 NotifyOfPropertyChange();
 
+                Time = 120;
+
+                Timer.Start();
+
                 NotifyOfPropertyChange(() => CanStartAuction);
                 NotifyOfPropertyChange(() => CanEndAuction);
             }
+        }
+
+        void Timer_Tick(object sender, EventArgs e)
+        {
+            if (Time == 0)
+                Timer.Stop();
+
+            Time--;
         }
 
         #region IAuctionUserViewModelBase
