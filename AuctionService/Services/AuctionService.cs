@@ -107,8 +107,6 @@ namespace AuctionService.Services
         {
             var auctions = _context.Auctions.ToList();
 
-            var x = Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
-
             return Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
         }
 

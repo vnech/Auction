@@ -7,11 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <StackPanel Margin="10" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
-                <TextBlock Width="100">Item id</TextBlock>
-                <TextBox Text="{Binding Auction.ItemId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150"></TextBox>
+            <StackPanel Margin="10" Height="30" Orientation="Horizontal">
+                <Label Content="Items:" Height="28" HorizontalAlignment="Left" Width="100" />
+                <ComboBox Width="150" DisplayMemberPath="ItemName" ItemsSource="{Binding ItemsAvailable}" SelectedValuePath="ItemId" SelectedValue="{Binding Auction.ItemId}"></ComboBox>
             </StackPanel>
-
             <StackPanel Margin="10" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
                 <TextBlock Width="100">Start price</TextBlock>
                 <TextBox Width="150" Text="{Binding Auction.StartPrice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
