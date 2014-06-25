@@ -1,12 +1,14 @@
 ﻿<Application x:Class="Auction.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:auction="clr-namespace:Auction">
+             xmlns:auction="clr-namespace:Auction"
+             xmlns:valueConverters="clr-namespace:Auction.Infrastructure.ValueConverters;assembly=Auction.Infrastructure">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <auction:AuctionBootstrapper x:Key="bootstrapper"></auction:AuctionBootstrapper>
+                    <valueConverters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

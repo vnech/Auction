@@ -5,7 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+    <Grid Margin="10">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="Auction:" Height="28" HorizontalAlignment="Left" Width="75" />
+                <TextBlock Text="{Binding Auction.Item.ItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
+            </StackPanel>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="Price:" Height="28" HorizontalAlignment="Left" Width="75" />
+                <TextBlock Text="{Binding Auction.StartPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
+            </StackPanel>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="Bid:" Height="28" HorizontalAlignment="Left" Width="75" />
+                <TextBox Text="{Binding BidItem.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="Bid" Content="Bid" Height="23" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

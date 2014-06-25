@@ -23,6 +23,7 @@
                         <DataGridTextColumn Header="Item Name" Binding="{Binding Item.ItemName}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Start Price" Binding="{Binding StartPrice}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Current Price" Binding="{Binding ItemId}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status, Converter={StaticResource EnumDescriptionConverter}}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Column="1">

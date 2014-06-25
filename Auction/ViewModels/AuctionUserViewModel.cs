@@ -103,6 +103,7 @@ namespace Auction.ViewModels
 
                 NotifyOfPropertyChange(() => CanStartAuction);
                 NotifyOfPropertyChange(() => CanEndAuction);
+                NotifyOfPropertyChange(() => CanBid);
             }
         }
 
@@ -141,6 +142,8 @@ namespace Auction.ViewModels
 
         public void Bid()
         {
+            _bidAuctionViewModel.SetAuction(SelectedAuction);
+
             bool? showDialog = _windowManager.ShowDialog(_bidAuctionViewModel);
         }
 
@@ -148,7 +151,9 @@ namespace Auction.ViewModels
         {
             get
             {
-                return _accountController.IsAuthentificated;
+                return _accountController.IsAuthentificated && 
+                        SelectedAuction != null && 
+                        SelectedAuction.Status == AuctionStatus.Started;
             }
         }
 
