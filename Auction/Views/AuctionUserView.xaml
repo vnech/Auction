@@ -22,8 +22,8 @@
                         <DataGridTextColumn Header="Auction ID" Binding="{Binding AuctionId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Item Name" Binding="{Binding Item.ItemName}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Start Price" Binding="{Binding StartPrice}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Current Price" Binding="{Binding ItemId}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status, Converter={StaticResource EnumDescriptionConverter}}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Current Price" Binding="{Binding CurrentPrice}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status, Converter={StaticResource EnumDescriptionConverter}, Mode=TwoWay}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Column="1">

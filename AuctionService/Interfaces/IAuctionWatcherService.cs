@@ -8,6 +8,6 @@ namespace AuctionService.Interfaces
     {
         event EventHandler OnAuctionsChange;
 
-        IEnumerable<AuctionDTO> AuctionsGet();
+        IEnumerable<AuctionDTO> AuctionsAllGet();
     }
 }

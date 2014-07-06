@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e5d224013b6d40bcac3406226a2b297f" Name="Diagram1">
+      <Diagram DiagramId="168fdfe41a344520afb05585eab664c8" Name="Diagram1">
         <EntityTypeShape EntityType="AuctionModel.Auction" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuctionModel.Bid" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuctionModel.Item" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuctionModel.m" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AuctionModel.User" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Bid" Width="1.5" PointX="9.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Item" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Role" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.User" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="AuctionModel.FK_Auctions_Items" ManuallyRouted="false" />
         <AssociationConnector Association="AuctionModel.FK_Bid_Auctions" ManuallyRouted="false" />
         <AssociationConnector Association="AuctionModel.FK_Item_Users" ManuallyRouted="false" />

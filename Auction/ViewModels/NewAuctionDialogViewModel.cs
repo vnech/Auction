@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Forms;
 using Auction.Interfaces;
 using Auction.Models.DTO;
 using AuctionService.Interfaces;
@@ -20,10 +19,7 @@ namespace Auction.ViewModels
             _auctionService = auctionService;
             _itemService = itemService;
 
-            Auction = new Models.DTO.AuctionDTO();
-
-
-            Auction.PropertyChanged += Auction_PropertyChanged;
+            AuctionInitiallize();
         }
 
         void Auction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -60,7 +56,7 @@ namespace Auction.ViewModels
         {
             _auctionService.NewAuction(Auction);
 
-            Auction = new Auction.Models.DTO.AuctionDTO();
+            Auction = new AuctionDTO();
 
             TryClose(true);
         }
@@ -70,11 +66,33 @@ namespace Auction.ViewModels
             get { return Auction.ItemId > 0 && Auction.StartPrice >= 0; }
         }
 
+        #region Helpers
+
+        private void AuctionInitiallize()
+        {
+            Auction = new AuctionDTO();
+
+            Auction.PropertyChanged += Auction_PropertyChanged;
+        }
+
+        #endregion Helpers
+
+        #region Screen overrides
+
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
 
             ItemsAvailable = _itemService.GetItemsAvailableForAuction();
         }
+
+        protected override void OnDeactivate(bool close)
+        {
+            AuctionInitiallize();
+
+            base.OnDeactivate(close);
+        }
+
+        #endregion Screen overrides
     }
 }

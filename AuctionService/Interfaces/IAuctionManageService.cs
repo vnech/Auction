@@ -10,6 +10,8 @@ namespace AuctionService.Interfaces
 
         void EndAuction(AuctionDTO auction);
 
+        void UpdateAuction(AuctionDTO auction);
+
         bool CanAuctionBeStarted(AuctionDTO auction);
 
         bool CanAuctionBeEnded(AuctionDTO auction);

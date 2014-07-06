@@ -25,6 +25,9 @@ namespace Auction.Data
         public Nullable<System.DateTime> StartDate { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public short Status { get; set; }
+        public decimal CurrentPrice { get; set; }
+        public Nullable<int> BidderId { get; set; }
+        public Nullable<System.DateTime> LastBiddedAt { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }

@@ -14,10 +14,9 @@ namespace Auction.ViewModels
 
         public LoginViewModel(IAccountController accountController)
         {
-            this._accountController = accountController;
-            _user = new UserDTO();
+            _accountController = accountController;
 
-            User.PropertyChanged += User_PropertyChanged;
+            UserInitiallize();
         }
 
         private void User_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -49,8 +48,6 @@ namespace Auction.ViewModels
 
         public void Confirm()
         {
-            ErrorMessage = string.Empty;
-
             var isLoggedIn = _accountController.Login(User);
 
             if (!isLoggedIn)
@@ -63,15 +60,7 @@ namespace Auction.ViewModels
                 }
             }
 
-            ResetData();
-
             TryClose(true);
-        }
-
-        private void ResetData()
-        {
-            ErrorMessage = string.Empty;
-            User.Reset();
         }
 
         public bool CanConfirm
@@ -80,6 +69,25 @@ namespace Auction.ViewModels
             {
                 return !string.IsNullOrEmpty(User.UserName) && !string.IsNullOrEmpty(User.Password);
             }
+        }
+
+        #region Helpers
+
+        private void UserInitiallize()
+        {
+            _user = new UserDTO();
+
+            User.PropertyChanged += User_PropertyChanged;
+        }
+
+        #endregion Helpers
+
+        protected override void OnDeactivate(bool close)
+        {
+            UserInitiallize();
+
+            ErrorMessage = string.Empty;
+            base.OnDeactivate(close);
         }
     }
 }

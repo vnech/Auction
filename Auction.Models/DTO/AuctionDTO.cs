@@ -92,6 +92,14 @@ namespace Auction.Models.DTO
             }
         }
 
+        public DateTime CreatedAt { get; set; }
+
+        public decimal CurrentPrice { get; set; }
+
+        public int? BidderId { get; set; }
+
+        public DateTime? LastBiddedAt { get; set; }
+
         public void Reset()
         {
         }

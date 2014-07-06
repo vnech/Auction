@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Threading;
 using Auction.Interfaces;
 using Auction.Models.DTO;
@@ -35,7 +34,7 @@ namespace Auction.ViewModels
             _newItemDialogViewModel = newItemDialogViewModel;
             _bidAuctionViewModel = bidAuctionViewModel;
 
-            Auctions = new ObservableCollection<AuctionDTO>(_auctionService.AuctionsGet());
+            Auctions = new BindableCollection<AuctionDTO>(_auctionService.AuctionsAllGet());
 
             _auctionService.OnAuctionsChange += AuctionService_OnAuctionsChange;
 
@@ -67,9 +66,11 @@ namespace Auction.ViewModels
             {
                 Auctions.Clear();
 
-                var auctions = _auctionService.AuctionsGet();
+                var auctions = _auctionService.AuctionsAllGet();
 
                 auctions.Each(a => Auctions.Add(a));
+
+                Auctions.Refresh();
             });
         }
 
@@ -86,7 +87,7 @@ namespace Auction.ViewModels
             }
         }
 
-        public ObservableCollection<AuctionDTO> Auctions { get; set; }
+        public BindableCollection<AuctionDTO> Auctions { get; set; }
 
         public AuctionDTO SelectedAuction
         {
@@ -97,20 +98,52 @@ namespace Auction.ViewModels
                 _selectedAuction = value;
                 NotifyOfPropertyChange();
 
-                Time = 120;
-
-                Timer.Start();
-
-                NotifyOfPropertyChange(() => CanStartAuction);
-                NotifyOfPropertyChange(() => CanEndAuction);
-                NotifyOfPropertyChange(() => CanBid);
+                SelectedAuctionChanged();
             }
         }
 
-        void Timer_Tick(object sender, EventArgs e)
+        private void SelectedAuctionChanged()
         {
-            if (Time == 0)
+            //todo: refactor
+            if (SelectedAuction != null && SelectedAuction.Status == AuctionStatus.Started && SelectedAuction.LastBiddedAt.HasValue)
+            {
+                var endTime = SelectedAuction.LastBiddedAt.Value + new TimeSpan(0, 2, 0);
+
+                var timeLeft = (endTime - DateTime.Now).TotalSeconds;
+
+                Time = (int)timeLeft;
+
+                Timer.Start();
+            }
+            else if (SelectedAuction != null && SelectedAuction.Status == AuctionStatus.NotStarted)
+            {
+                Time = 0;
+
                 Timer.Stop();
+            }
+            else
+            {
+                //db layer managed by sql agent
+                if (SelectedAuction != null) SelectedAuction.Status = AuctionStatus.Ended;
+                
+                Time = 0;
+
+                Timer.Stop();
+            }
+
+            NotifyOfPropertyChange(() => CanStartAuction);
+            NotifyOfPropertyChange(() => CanEndAuction);
+            NotifyOfPropertyChange(() => CanBid);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (Time <= 0)
+            {
+                Timer.Stop();
+
+                Time = 0;
+            }
 
             Time--;
         }
@@ -119,21 +152,24 @@ namespace Auction.ViewModels
 
         public void Login()
         {
-            bool? showDialog = _windowManager.ShowDialog(IoC.Get<ILoginViewModel>());
+            _windowManager.ShowDialog(IoC.Get<ILoginViewModel>());
+
+            NotifyOfPropertyChange(() => CanLogin);
         }
 
-        public bool CanLogin()
+        public bool CanLogin
         {
-            return true;
+            get { return !_accountController.IsAuthentificated; }
         }
 
         public void LogOut()
         {
+            _accountController.LogOut();
         }
 
-        public bool CanLogOut()
+        public bool CanLogOut
         {
-            return true;
+            get { return _accountController.IsAuthentificated; }
         }
 
         #endregion IAuctionUserViewModelBase
@@ -144,15 +180,15 @@ namespace Auction.ViewModels
         {
             _bidAuctionViewModel.SetAuction(SelectedAuction);
 
-            bool? showDialog = _windowManager.ShowDialog(_bidAuctionViewModel);
+            _windowManager.ShowDialog(_bidAuctionViewModel);
         }
 
         public bool CanBid
         {
             get
             {
-                return _accountController.IsAuthentificated && 
-                        SelectedAuction != null && 
+                return _accountController.IsAuthentificated &&
+                        SelectedAuction != null &&
                         SelectedAuction.Status == AuctionStatus.Started;
             }
         }

@@ -38,6 +38,7 @@ namespace AuctionService.Services
 
         public void LogOut()
         {
+            CurrentUser = null;
         }
 
         public bool SignUp(UserDTO user)

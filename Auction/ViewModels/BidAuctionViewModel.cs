@@ -9,14 +9,15 @@ namespace Auction.ViewModels
     public class BidAuctionViewModel: Screen, IBidAuctionViewModel
     {
         private readonly IAuctionBiddingService _auctionBiddingService;
+        private readonly IAuctionService _auctionService;
         private readonly IAccountController _accountController;
 
         private AuctionDTO _auction;
         private BidDTO _bidItem;
 
-        public BidAuctionViewModel(IAuctionBiddingService auctionBiddingService, IAccountController accountController)
+        public BidAuctionViewModel(IAuctionService auctionService, IAccountController accountController)
         {
-            _auctionBiddingService = auctionBiddingService;
+            _auctionService = auctionService;
             _accountController = accountController;
 
             BidItem = new BidDTO();
@@ -56,13 +57,13 @@ namespace Auction.ViewModels
 
         public void Bid()
         {
-            BidItem.AuctionId = Auction.AuctionId;
+            Auction.LastBiddedAt = DateTime.Now;
 
-            BidItem.BidderId = _accountController.CurrentUser.UserId;
+            Auction.BidderId = _accountController.CurrentUser.UserId;
 
-            BidItem.CreatedAt = DateTime.Now;
+            Auction.CurrentPrice += BidItem.Amount;
 
-            _auctionBiddingService.Bid(BidItem);
+            _auctionService.UpdateAuction(Auction);
 
             BidItem = new BidDTO();
 

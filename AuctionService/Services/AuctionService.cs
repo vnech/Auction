@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Auction.Data;
 using Auction.Data.Notifications;
@@ -13,6 +14,11 @@ namespace AuctionService.Services
     {
         private LiveNotification<Auction.Data.Auction> _auctionsChangedNotification;
         private readonly AuctionContext _context;
+        private readonly IQueryable<Auction.Data.Auction> _allAuctionsQuery;
+        private readonly IQueryable<Auction.Data.Auction> _activeAuctionsQuery;
+
+        //todo: extract
+        private readonly int AuctionDurationMinutes = 2; 
 
         public AuctionService()
             : this(new AuctionContext())
@@ -26,9 +32,17 @@ namespace AuctionService.Services
 
             //todo: refactor
 
-            var query = from auction in _context.Auctions select auction;
+            //get active auctions query
+            _activeAuctionsQuery = _context.Auctions.Where(
+                a =>
+                    a.Status == (short) AuctionStatus.Started &&
+                    DbFunctions.DiffMinutes(DateTime.Now, a.LastBiddedAt) < AuctionDurationMinutes);
 
-            _auctionsChangedNotification = new LiveNotification<Auction.Data.Auction>(_context, query);
+            //get all auctions query
+            _allAuctionsQuery = from auction in _context.Auctions select auction;
+
+            //subscription to SqlDependency for all auctions changes
+            _auctionsChangedNotification = new LiveNotification<Auction.Data.Auction>(_context, _allAuctionsQuery);
 
             _auctionsChangedNotification.OnChanged += AuctionsChangedNotificationOnChanged;
         }
@@ -51,7 +65,7 @@ namespace AuctionService.Services
 
             auctionEntity.StartDate = null;
 
-            auction.Status = (int) AuctionStatus.NotStarted;
+            auctionEntity.Status = (int) AuctionStatus.NotStarted;
 
             auctionEntity = _context.Auctions.Add(auctionEntity);
 
@@ -68,7 +82,11 @@ namespace AuctionService.Services
             {
                 entity.StartDate = DateTime.Now;
 
-                entity.Status = (int)AuctionStatus.Started;
+                entity.Status = (int) AuctionStatus.Started;
+
+                entity.CurrentPrice = entity.StartPrice;
+
+                entity.LastBiddedAt = DateTime.Now;
 
                 _context.SaveChanges();
             }
@@ -80,7 +98,19 @@ namespace AuctionService.Services
 
             if (entity != null)
             {
-                entity.Status = (int)AuctionStatus.Ended;
+                entity.Status = (int) AuctionStatus.Ended;
+
+                _context.SaveChanges();
+            }
+        }
+
+        public void UpdateAuction(AuctionDTO auction)
+        {
+            var entity = _context.Auctions.FirstOrDefault(a => a.AuctionId == auction.AuctionId);
+
+            if (entity != null)
+            {
+                entity = Mapper.Map<AuctionDTO, Auction.Data.Auction>(auction, entity);
 
                 _context.SaveChanges();
             }
@@ -103,11 +133,14 @@ namespace AuctionService.Services
 
         public event EventHandler OnAuctionsChange;
 
-        public IEnumerable<AuctionDTO> AuctionsGet()
+        public IEnumerable<AuctionDTO> AuctionsAllGet()
         {
-            var auctions = _context.Auctions.ToList();
+            using (var context = new AuctionContext())
+            {
+                var auctions = context.Auctions.ToList();
 
-            return Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
+                return Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
+            }
         }
 
         #endregion IAuctionWatcherService

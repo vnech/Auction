@@ -15,7 +15,20 @@ namespace Auction.ViewModels
         {
             _accountController = accountController;
             _itemService = itemService;
+
+            ItemInitiallize();
+        }
+
+        private void ItemInitiallize()
+        {
             _item = new ItemDTO();
+
+            _item.PropertyChanged += Item_PropertyChanged;
+        }
+
+        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => CanCreate);
         }
 
         public ItemDTO Item
@@ -39,5 +52,21 @@ namespace Auction.ViewModels
 
             TryClose(true);
         }
+
+        public bool CanCreate
+        {
+            get { return !string.IsNullOrEmpty(Item.ItemName) && Item.ItemName.Length <= 50; }
+        }
+
+        #region Screen overrides
+
+        protected override void OnDeactivate(bool close)
+        {
+            ItemInitiallize();
+
+            base.OnDeactivate(close);
+        }
+
+        #endregion Screen overrides
     }
 }
