@@ -12,9 +12,7 @@ namespace AuctionService.Services
 {
     public class AuctionService : IAuctionService
     {
-        private LiveNotification<Auction.Data.Auction> _auctionsChangedNotification;
         private readonly AuctionContext _context;
-        private readonly IQueryable<Auction.Data.Auction> _allAuctionsQuery;
         private readonly IQueryable<Auction.Data.Auction> _activeAuctionsQuery;
 
         //todo: extract
@@ -34,17 +32,17 @@ namespace AuctionService.Services
 
             //get active auctions query
             _activeAuctionsQuery = _context.Auctions.Where(
-                a =>
+                a => a.IsActive &&
                     a.Status == (short) AuctionStatus.Started &&
                     DbFunctions.DiffMinutes(DateTime.Now, a.LastBiddedAt) < AuctionDurationMinutes);
 
             //get all auctions query
-            _allAuctionsQuery = from auction in _context.Auctions select auction;
+            IQueryable<Auction.Data.Auction> allAuctionsQuery = from auction in _context.Auctions where auction.IsActive select auction;
 
             //subscription to SqlDependency for all auctions changes
-            _auctionsChangedNotification = new LiveNotification<Auction.Data.Auction>(_context, _allAuctionsQuery);
+            LiveNotification<Auction.Data.Auction> auctionsChangedNotification = new LiveNotification<Auction.Data.Auction>(_context, allAuctionsQuery);
 
-            _auctionsChangedNotification.OnChanged += AuctionsChangedNotificationOnChanged;
+            auctionsChangedNotification.OnChanged += AuctionsChangedNotificationOnChanged;
         }
 
         private void AuctionsChangedNotificationOnChanged(object sender, EventArgs e)
@@ -67,6 +65,8 @@ namespace AuctionService.Services
 
             auctionEntity.Status = (int) AuctionStatus.NotStarted;
 
+            auctionEntity.IsActive = true;
+
             auctionEntity = _context.Auctions.Add(auctionEntity);
 
             _context.SaveChanges();
@@ -76,7 +76,7 @@ namespace AuctionService.Services
 
         public void StartAuction(AuctionDTO auction)
         {
-            var entity = _context.Auctions.FirstOrDefault(a => a.AuctionId == auction.AuctionId);
+            var entity = _context.Auctions.Where(a => a.IsActive).FirstOrDefault(a => a.AuctionId == auction.AuctionId);
 
             if (entity != null)
             {
@@ -94,7 +94,7 @@ namespace AuctionService.Services
 
         public void EndAuction(AuctionDTO auction)
         {
-            var entity = _context.Auctions.FirstOrDefault(a => a.AuctionId == auction.AuctionId);
+            var entity = _context.Auctions.Where(a => a.IsActive).FirstOrDefault(a => a.AuctionId == auction.AuctionId);
 
             if (entity != null)
             {
@@ -119,12 +119,23 @@ namespace AuctionService.Services
         public bool CanAuctionBeStarted(AuctionDTO auction)
         {
             return auction != null && auction.Status == AuctionStatus.NotStarted;
-            //|| auction.Status == AuctionStatus.Suspended;
         }
 
         public bool CanAuctionBeEnded(AuctionDTO auction)
         {
             return auction != null && auction.Status == AuctionStatus.Started;
+        }
+
+        public void Delete(AuctionDTO auction)
+        {
+            var entity = _context.Auctions.FirstOrDefault(a => a.AuctionId == auction.AuctionId);
+
+            if (entity != null)
+            {
+                entity.IsActive = false;
+
+                _context.SaveChanges();
+            }
         }
 
         #endregion IAuctionManageService
@@ -137,7 +148,7 @@ namespace AuctionService.Services
         {
             using (var context = new AuctionContext())
             {
-                var auctions = context.Auctions.ToList();
+                var auctions = context.Auctions.Where(a => a.IsActive).ToList();
 
                 return Mapper.Map<IEnumerable<Auction.Data.Auction>, IEnumerable<AuctionDTO>>(auctions);
             }
@@ -149,6 +160,8 @@ namespace AuctionService.Services
 
         public void Bid(BidDTO bid)
         {
+            throw new NotImplementedException();
+
             bid.CreatedAt = DateTime.Now;
 
             var bidEntity = Mapper.Map<Auction.Data.Bid>(bid);

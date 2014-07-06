@@ -25,6 +25,7 @@ namespace Auction.Data
         public string ItemDescription { get; set; }
         public byte[] ItemImage { get; set; }
         public int SellerId { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual ICollection<Auction> Auctions { get; set; }
         public virtual User User { get; set; }

@@ -1,5 +1,4 @@
-﻿using System;
-using Auction.Models.DTO;
+﻿using Auction.Models.DTO;
 using AutoMapper;
 
 namespace Auction.IoCConfig

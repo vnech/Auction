@@ -15,7 +15,7 @@ namespace Auction.ViewModels
         private readonly IAuctionService _auctionService;
         private readonly IWindowManager _windowManager;
         private readonly INewAuctionDialogViewModel _newAuctionDialogViewModel;
-        private readonly INewItemDialogViewModel _newItemDialogViewModel;
+        private readonly IItemDialogViewModel _itemDialogViewModel;
         private readonly IBidAuctionViewModel _bidAuctionViewModel;
         private AuctionDTO _selectedAuction;
         private int _time;
@@ -24,14 +24,14 @@ namespace Auction.ViewModels
                                     IAuctionService auctionService,
                                     IWindowManager windowManager,
                                     INewAuctionDialogViewModel newAuctionDialogViewModel,
-                                    INewItemDialogViewModel newItemDialogViewModel,
+                                    IItemDialogViewModel itemDialogViewModel,
                                     IBidAuctionViewModel bidAuctionViewModel)
         {
             _accountController = accountController;
             _auctionService = auctionService;
             _windowManager = windowManager;
             _newAuctionDialogViewModel = newAuctionDialogViewModel;
-            _newItemDialogViewModel = newItemDialogViewModel;
+            _itemDialogViewModel = itemDialogViewModel;
             _bidAuctionViewModel = bidAuctionViewModel;
 
             Auctions = new BindableCollection<AuctionDTO>(_auctionService.AuctionsAllGet());
@@ -225,7 +225,7 @@ namespace Auction.ViewModels
 
         public void NewItem()
         {
-            bool? showDialog = _windowManager.ShowDialog(_newItemDialogViewModel);
+            bool? showDialog = _windowManager.ShowDialog(_itemDialogViewModel);
         }
 
         public bool CanNewItem

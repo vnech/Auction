@@ -15,5 +15,7 @@ namespace AuctionService.Interfaces
         bool CanAuctionBeStarted(AuctionDTO auction);
 
         bool CanAuctionBeEnded(AuctionDTO auction);
+
+        void Delete(AuctionDTO auction);
     }
 }

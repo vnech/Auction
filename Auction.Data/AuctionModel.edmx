@@ -18,6 +18,7 @@
           <Property Name="CurrentPrice" Type="money" Nullable="false" />
           <Property Name="BidderId" Type="int" />
           <Property Name="LastBiddedAt" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Bids">
           <Key>
@@ -39,6 +40,7 @@
           <Property Name="ItemDescription" Type="nvarchar(max)" />
           <Property Name="ItemImage" Type="image" />
           <Property Name="SellerId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -170,6 +172,7 @@
           <Property Name="CurrentPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="BidderId" Type="Int32" />
           <Property Name="LastBiddedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Auctions_Items" FromRole="Auctions" ToRole="Items" />
           <NavigationProperty Name="Bids" Relationship="Self.FK_Bid_Auctions" FromRole="Auctions" ToRole="Bids" />
         </EntityType>
@@ -194,6 +197,7 @@
           <Property Name="ItemDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ItemImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Auctions" Relationship="Self.FK_Auctions_Items" FromRole="Items" ToRole="Auctions" />
           <NavigationProperty Name="User" Relationship="Self.FK_Item_Users" FromRole="Items" ToRole="Users" />
         </EntityType>
@@ -297,6 +301,7 @@
                 <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
                 <ScalarProperty Name="BidderId" ColumnName="BidderId" />
                 <ScalarProperty Name="LastBiddedAt" ColumnName="LastBiddedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -320,6 +325,7 @@
                 <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
                 <ScalarProperty Name="ItemImage" ColumnName="ItemImage" />
                 <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,8 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Auction.Data;
+using Auction.Infrastructure.Interfaces;
+using Caliburn.Micro;
 
 namespace Auction.Models.DTO
 {
@@ -54,6 +58,8 @@ namespace Auction.Models.DTO
             }
         }
 
+        public bool IsActive { get; set; }
+
         public int SellerId
         {
             get { return _sellerId; }
@@ -64,5 +70,11 @@ namespace Auction.Models.DTO
                 NotifyOfPropertyChange();
             }
         }
+
+        public byte[] ItemImage { get; set; }
+
+        public virtual ICollection<AuctionDTO> Auctions { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

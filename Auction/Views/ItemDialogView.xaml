@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Auction.Views.ItemDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <DataGrid SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Items, Mode=TwoWay}" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="0" IsSynchronizedWithCurrentItem="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Item ID" Binding="{Binding ItemId}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Start Price" Binding="{Binding ItemStartPrice}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Description Price" Binding="{Binding ItemDescription}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Button Margin="10" x:Name="Delete">
+                    <TextBlock>Delete</TextBlock>
+                </Button>
+                <Button Margin="10" x:Name="RefreshItemsGrid">
+                    <TextBlock>Refresh</TextBlock>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style x:Key="NewItemStyle">
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="Name:" Height="28" HorizontalAlignment="Left" Width="75" />
+                <TextBox Text="{Binding Item.ItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
+            </StackPanel>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="Start price:" Height="28" HorizontalAlignment="Left" Width="75" />
+                <TextBox Text="{Binding Item.ItemStartPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
+            </StackPanel>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="Description:" Height="28" HorizontalAlignment="Left" Width="75" />
+                <TextBox Text="{Binding Item.ItemDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, BindsDirectlyToSource=True}" Height="23" HorizontalAlignment="Left" Width="120" />
+            </StackPanel>        
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="Create" Content="Create" Height="23" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -20,7 +20,7 @@ namespace Auction.IoCConfig
             container.RegisterType<IAuctionAdminViewModel, AuctionUserViewModel>(new ContainerControlledLifetimeManager());
             container.RegisterType<ILoginViewModel, LoginViewModel>(new ContainerControlledLifetimeManager());
             container.RegisterType<INewAuctionDialogViewModel, NewAuctionDialogViewModel>();
-            container.RegisterType<INewItemDialogViewModel, NewItemDialogViewModel>();
+            container.RegisterType<IItemDialogViewModel, ItemDialogViewModel>();
             container.RegisterType<IBidAuctionViewModel, BidAuctionViewModel>();
 
             container.RegisterType<IAccountController, AccountControler>(new ContainerControlledLifetimeManager());

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Auction.Models.DTO;
 
 namespace AuctionService.Interfaces
@@ -13,7 +14,8 @@ namespace AuctionService.Interfaces
 
         ItemDTO UpdateItem(ItemDTO itemDto);
 
-        //todo: refactor
         IEnumerable<ItemDTO> GetItemsAvailableForAuction();
+
+        IEnumerable<ItemDTO> GetItems();
     }
 }

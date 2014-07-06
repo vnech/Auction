@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Auction.Data;
+using Auction.Data.Notifications;
 using Auction.Models.DTO;
 using AuctionService.Interfaces;
 using AutoMapper;
@@ -29,6 +30,8 @@ namespace AuctionService.Services
             {
                 var itemEntity = Mapper.Map<Auction.Data.Item>(item);
 
+                itemEntity.IsActive = true;
+
                 itemEntity = context.Items.Add(itemEntity);
 
                 context.SaveChanges();
@@ -37,9 +40,15 @@ namespace AuctionService.Services
             }
         }
 
-        public void DeleteItem(ItemDTO itemDto)
+        public void DeleteItem(ItemDTO item)
         {
-            throw new NotImplementedException();
+            var entity = _context.Items.FirstOrDefault(i => i.ItemId == item.ItemId);
+
+            if (entity == null) return;
+
+            entity.IsActive = false;
+
+            _context.SaveChanges();
         }
 
         public ItemDTO GetItem(ItemDTO itemDto)
@@ -54,8 +63,18 @@ namespace AuctionService.Services
 
         public IEnumerable<ItemDTO> GetItemsAvailableForAuction()
         {
-            var items = _context.Items.Where(item => item.Auctions.Count == 0).ToList();
+            var items = _context.Items.Where(item => item.IsActive && item.Auctions.Count == 0).ToList();
             return Mapper.Map<IEnumerable<Item>, IEnumerable<ItemDTO>>(items);
+        }
+
+        public IEnumerable<ItemDTO> GetItems()
+        {
+            using (var context = new AuctionContext())
+            {
+                var items = context.Items.Where(i => i.IsActive).ToList();
+
+                return Mapper.Map<IEnumerable<Item>, IEnumerable<ItemDTO>>(items);
+            }
         }
     }
 }

@@ -106,7 +106,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Interfaces\IBidAuctionViewModel.cs" />
-    <Compile Include="Interfaces\INewItemDialogViewModel.cs" />
+    <Compile Include="Interfaces\IItemDialogViewModel.cs" />
     <Compile Include="Interfaces\IAuctionAdminViewModel.cs" />
     <Compile Include="Interfaces\IAuctionUserViewMode.cs" />
     <Compile Include="Interfaces\IAuctionUserViewModelBase.cs" />
@@ -122,10 +122,10 @@
     <Compile Include="Views\BidAuctionView.xaml.cs">
       <DependentUpon>BidAuctionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewItemDialogView.xaml.cs">
-      <DependentUpon>NewItemDialogView.xaml</DependentUpon>
+    <Compile Include="Views\ItemDialogView.xaml.cs">
+      <DependentUpon>ItemDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\NewItemDialogViewModel.cs" />
+    <Compile Include="ViewModels\ItemDialogViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\AuctionUserView.xaml.cs">
       <DependentUpon>AuctionUserView.xaml</DependentUpon>
@@ -156,7 +156,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewItemDialogView.xaml">
+    <Page Include="Views\ItemDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

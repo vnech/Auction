@@ -2,8 +2,10 @@
 
 namespace Auction.Interfaces
 {
-    public interface INewItemDialogViewModel: IViewModel
+    public interface IItemDialogViewModel: IViewModel
     {
         void Create();
+
+        void Delete();
     }
 }

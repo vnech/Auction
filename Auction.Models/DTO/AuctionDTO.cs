@@ -100,6 +100,8 @@ namespace Auction.Models.DTO
 
         public DateTime? LastBiddedAt { get; set; }
 
+        public bool IsActive { get; set; }
+
         public void Reset()
         {
         }
