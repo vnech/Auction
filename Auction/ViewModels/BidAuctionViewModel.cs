@@ -19,7 +19,10 @@ namespace Auction.ViewModels
         {
             _auctionService = auctionService;
             _accountController = accountController;
+        }
 
+        private void BidItemInitiallize()
+        {
             BidItem = new BidDTO();
 
             BidItem.PropertyChanged += BidItem_PropertyChanged;
@@ -57,15 +60,11 @@ namespace Auction.ViewModels
 
         public void Bid()
         {
-            Auction.LastBiddedAt = DateTime.Now;
+            BidItem.CreatedAt = DateTime.Now;
 
-            Auction.BidderId = _accountController.CurrentUser.UserId;
+            BidItem.BidderId = _accountController.CurrentUser.UserId;
 
-            Auction.CurrentPrice += BidItem.Amount;
-
-            _auctionService.UpdateAuction(Auction);
-
-            BidItem = new BidDTO();
+            _auctionService.Bid(BidItem, Auction);
 
             TryClose(true);
         }
@@ -79,5 +78,17 @@ namespace Auction.ViewModels
         {
             NotifyOfPropertyChange(() => CanBid);
         }
+
+        #region Screen overrides
+
+        protected override void OnActivate()
+        {
+            BidItemInitiallize();
+
+            base.OnActivate();
+        }
+
+        #endregion Screen overrides
+
     }
 }

@@ -22,7 +22,7 @@
                         <DataGridTextColumn Header="Item ID" Binding="{Binding ItemId}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Start Price" Binding="{Binding ItemStartPrice}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Description Price" Binding="{Binding ItemDescription}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Description" Binding="{Binding ItemDescription}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

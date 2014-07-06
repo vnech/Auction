@@ -158,17 +158,20 @@ namespace AuctionService.Services
 
         #region IAuctionBiddingService
 
-        public void Bid(BidDTO bid)
+        public void Bid(BidDTO bid, AuctionDTO auction)
         {
-            throw new NotImplementedException();
+            var entity = _context.Auctions.FirstOrDefault(a => a.IsActive && a.AuctionId == auction.AuctionId);
 
-            bid.CreatedAt = DateTime.Now;
+            if (entity != null)
+            {
+                entity.CurrentPrice += bid.Amount;
 
-            var bidEntity = Mapper.Map<Auction.Data.Bid>(bid);
+                entity.LastBiddedAt = bid.CreatedAt;
 
-            bidEntity = _context.Bids.Add(bidEntity);
+                entity.BidderId = bid.BidderId;
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
         }
 
         #endregion IAuctionBiddingService

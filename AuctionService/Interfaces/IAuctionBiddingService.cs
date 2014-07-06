@@ -4,6 +4,6 @@ namespace AuctionService.Interfaces
 {
     public interface IAuctionBiddingService
     {
-        void Bid(BidDTO bid);
+        void Bid(BidDTO bid, AuctionDTO auction);
     }
 }
