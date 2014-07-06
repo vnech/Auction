@@ -21,10 +21,6 @@ namespace Auction.ViewModels
             _accountController = accountController;
             _auctionService = auctionService;
             _itemService = itemService;
-
-            ItemInitiallize();
-
-            Items = new BindableCollection<ItemDTO>(_itemService.GetItems());
         }
 
         private void ItemInitiallize()
@@ -111,11 +107,13 @@ namespace Auction.ViewModels
 
         #region Screen overrides
 
-        protected override void OnDeactivate(bool close)
+        protected override void OnActivate()
         {
+            Items = new BindableCollection<ItemDTO>(_itemService.GetItems());
+
             ItemInitiallize();
 
-            base.OnDeactivate(close);
+            base.OnActivate();
         }
 
         #endregion Screen overrides
