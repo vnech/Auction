@@ -9,6 +9,7 @@
                 <ResourceDictionary>
                     <auction:AuctionBootstrapper x:Key="bootstrapper"></auction:AuctionBootstrapper>
                     <valueConverters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+                    <valueConverters:ByteArrayToBitmapImageConverter x:Key="ByteArrayToBitmapImageConverter" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

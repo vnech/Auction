@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AuctionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AuctionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auctions">
           <Key>
             <PropertyRef Name="AuctionId" />
@@ -16,7 +16,7 @@
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="smallint" Nullable="false" />
           <Property Name="CurrentPrice" Type="money" Nullable="false" />
-          <Property Name="BidderId" Type="int" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
           <Property Name="LastBiddedAt" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -75,6 +75,18 @@
             </Principal>
             <Dependent Role="Auctions">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Auctions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Auctions" Type="Self.Auctions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Auctions">
+              <PropertyRef Name="BidderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -137,6 +149,10 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="Auctions" EntitySet="Auctions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Auctions_Users" Association="Self.FK_Auctions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Auctions" EntitySet="Auctions" />
+          </AssociationSet>
           <AssociationSet Name="FK_Bid_Auctions" Association="Self.FK_Bid_Auctions">
             <End Role="Auctions" EntitySet="Auctions" />
             <End Role="Bids" EntitySet="Bids" />
@@ -154,8 +170,7 @@
             <End Role="UserInRole" EntitySet="UserInRole" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AuctionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -170,11 +185,12 @@
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <Property Name="CurrentPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="BidderId" Type="Int32" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
           <Property Name="LastBiddedAt" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Auctions_Items" FromRole="Auctions" ToRole="Items" />
           <NavigationProperty Name="Bids" Relationship="Self.FK_Bid_Auctions" FromRole="Auctions" ToRole="Bids" />
+          <NavigationProperty Name="User" Relationship="AuctionModel.FK_Auctions_Users" FromRole="Auction" ToRole="User" />
         </EntityType>
         <EntityType Name="Bid">
           <Key>
@@ -219,6 +235,7 @@
           <Property Name="UserLevel" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Items" Relationship="Self.FK_Item_Users" FromRole="Users" ToRole="Items" />
           <NavigationProperty Name="Roles" Relationship="Self.UserInRole" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="Auctions" Relationship="AuctionModel.FK_Auctions_Users" FromRole="User" ToRole="Auction" />
         </EntityType>
         <Association Name="FK_Auctions_Items">
           <End Role="Items" Type="Self.Item" Multiplicity="1" />
@@ -282,7 +299,23 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Auctions_Users" Association="AuctionModel.FK_Auctions_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Auction" EntitySet="Auctions" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Auctions_Users">
+          <End Type="AuctionModel.User" Role="User" Multiplicity="1" />
+          <End Type="AuctionModel.Auction" Role="Auction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Auction">
+              <PropertyRef Name="BidderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

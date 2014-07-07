@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Auction.Data;
-using Auction.Infrastructure.Interfaces;
 using Caliburn.Micro;
 
 namespace Auction.Models.DTO
@@ -13,6 +11,7 @@ namespace Auction.Models.DTO
         private decimal _itemStartPrice;
         private string _itemDescription;
         private int _sellerId;
+        private byte[] _itemImage;
 
         public int ItemId
         {
@@ -71,7 +70,16 @@ namespace Auction.Models.DTO
             }
         }
 
-        public byte[] ItemImage { get; set; }
+        public byte[] ItemImage
+        {
+            get { return _itemImage; }
+            set
+            {
+                if (Equals(value, _itemImage)) return;
+                _itemImage = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public virtual ICollection<AuctionDTO> Auctions { get; set; }
 

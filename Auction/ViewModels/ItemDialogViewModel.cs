@@ -8,7 +8,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace Auction.ViewModels
 {
-    public class ItemDialogViewModel: Screen, IItemDialogViewModel
+    public class    ItemDialogViewModel: Screen, IItemDialogViewModel
     {
         private readonly IAccountController _accountController;
         private readonly IItemService _itemService;
@@ -21,6 +21,8 @@ namespace Auction.ViewModels
             _accountController = accountController;
             _auctionService = auctionService;
             _itemService = itemService;
+
+            ItemInitiallize();
         }
 
         private void ItemInitiallize()

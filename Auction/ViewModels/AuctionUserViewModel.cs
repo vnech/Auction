@@ -225,7 +225,7 @@ namespace Auction.ViewModels
 
         public void NewItem()
         {
-            bool? showDialog = _windowManager.ShowDialog(_itemDialogViewModel);
+           bool? val = _windowManager.ShowDialog(_itemDialogViewModel);
         }
 
         public bool CanNewItem

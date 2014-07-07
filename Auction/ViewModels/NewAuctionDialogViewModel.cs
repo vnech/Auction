@@ -10,14 +10,16 @@ namespace Auction.ViewModels
     {
         private readonly IAuctionService _auctionService;
         private readonly IItemService _itemService;
+        private readonly IAccountController _accountController;
 
         private AuctionDTO _auction;
         private IEnumerable<ItemDTO> _itemsAvailable;
 
-        public NewAuctionDialogViewModel(IAuctionService auctionService, IItemService itemService)
+        public NewAuctionDialogViewModel(IAuctionService auctionService, IItemService itemService, IAccountController accountController)
         {
             _auctionService = auctionService;
             _itemService = itemService;
+            _accountController = accountController;
 
             AuctionInitiallize();
         }
@@ -54,6 +56,8 @@ namespace Auction.ViewModels
 
         public void Create()
         {
+            Auction.BidderId = _accountController.CurrentUser.UserId;
+
             _auctionService.NewAuction(Auction);
 
             Auction = new AuctionDTO();

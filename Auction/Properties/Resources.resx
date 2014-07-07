@@ -114,4 +114,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ItemDialogView_Browse_ButtonClick_Image_Files____jpg___jpeg___bmp___png____jpg___jpeg___bmp___png" xml:space="preserve">
+    <value>Image Files (*.jpg,*.jpeg,*.bmp,*.png)|*.jpg;*.jpeg;*.bmp;*.png</value>
+  </data>
 </root>

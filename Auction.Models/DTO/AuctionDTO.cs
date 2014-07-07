@@ -14,6 +14,7 @@ namespace Auction.Models.DTO
         private ItemDTO _item;
         private IEnumerable<BidDTO> _bids;
         private AuctionStatus _status;
+        private UserDTO _user;
 
         public int AuctionId
         {
@@ -101,6 +102,18 @@ namespace Auction.Models.DTO
         public DateTime? LastBiddedAt { get; set; }
 
         public bool IsActive { get; set; }
+
+        public UserDTO User
+        {
+            get { return _user; }
+            set
+            {
+                if (Equals(value, _user)) return;
+                _user = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         public void Reset()
         {

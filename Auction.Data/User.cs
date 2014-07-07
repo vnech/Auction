@@ -18,6 +18,7 @@ namespace Auction.Data
         {
             this.Items = new HashSet<Item>();
             this.Roles = new HashSet<Role>();
+            this.Auctions = new HashSet<Auction>();
         }
     
         public int UserId { get; set; }
@@ -27,5 +28,6 @@ namespace Auction.Data
     
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Auction> Auctions { get; set; }
     }
 }

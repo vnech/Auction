@@ -26,11 +26,12 @@ namespace Auction.Data
         public System.DateTime CreatedAt { get; set; }
         public short Status { get; set; }
         public decimal CurrentPrice { get; set; }
-        public Nullable<int> BidderId { get; set; }
+        public int BidderId { get; set; }
         public Nullable<System.DateTime> LastBiddedAt { get; set; }
         public bool IsActive { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }
+        public virtual User User { get; set; }
     }
 }

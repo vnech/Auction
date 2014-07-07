@@ -46,6 +46,4 @@ namespace Auction
             DisplayRootViewFor<IShellViewModel>();
         }
     }
-
-   
-}
+    }

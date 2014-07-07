@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500">
+             mc:Ignorable="d">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"></RowDefinition>
@@ -14,7 +13,7 @@
         <Grid Row="0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <DataGrid SelectedItem="{Binding SelectedAuction}" ItemsSource="{Binding Auctions, Mode=TwoWay}" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="0" IsSynchronizedWithCurrentItem="True">
@@ -24,6 +23,7 @@
                         <DataGridTextColumn Header="Start Price" Binding="{Binding StartPrice}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Current Price" Binding="{Binding CurrentPrice}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Status" Binding="{Binding Status, Converter={StaticResource EnumDescriptionConverter}, Mode=TwoWay}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Bidder" Binding="{Binding User.UserName}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Column="1">
